@@ -1,0 +1,5 @@
+<resources>
+    <dimen name="min_scrollhandle_height">48dp</dimen>
+    <dimen name="scrollbar_width">8dp</dimen>
+    <dimen name="scrollbar_inset">16dp</dimen>
+</resources>
