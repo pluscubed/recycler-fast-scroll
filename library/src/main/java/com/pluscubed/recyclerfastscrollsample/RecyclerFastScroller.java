@@ -5,6 +5,7 @@ import android.animation.AnimatorListenerAdapter;
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
 import android.content.Context;
+import android.content.res.TypedArray;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.InsetDrawable;
@@ -41,15 +42,24 @@ public class RecyclerFastScroller extends FrameLayout {
     }
 
     public RecyclerFastScroller(Context context, AttributeSet attrs, int defStyleAttr) {
+        this(context, attrs, defStyleAttr, 0);
+    }
+
+    public RecyclerFastScroller(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
         super(context, attrs, defStyleAttr);
 
         inflate(context, R.layout.vertical_recycler_fast_scroller_layout, this);
 
+        TypedArray a = context.getTheme().obtainStyledAttributes(
+                attrs,
+                R.styleable.RecyclerFastScroller,
+                defStyleAttr, defStyleRes);
+
         mBar = findViewById(R.id.scroll_bar);
         mHandle = findViewById(R.id.scroll_handle);
-        mMinScrollHandleHeight = getResources().getDimensionPixelSize(R.dimen.min_scrollhandle_height);
+        mMinScrollHandleHeight = getResources().getDimensionPixelSize(R.dimen.min_handle_height);
 
-        mHiddenTranslationX = (Utils.isRTL(getContext()) ? -1 : 1) * getResources().getDimensionPixelSize(R.dimen.scrollbar_width);
+        mHiddenTranslationX = (Utils.isRTL(getContext()) ? -1 : 1) * getResources().getDimensionPixelSize(R.dimen.bar_width);
         mHide = new Runnable() {
             @Override
             public void run() {
@@ -126,14 +136,14 @@ public class RecyclerFastScroller extends FrameLayout {
 
         if (!Utils.isRTL(getContext())) {
             drawable.addState(View.PRESSED_ENABLED_STATE_SET,
-                    new InsetDrawable(new ColorDrawable(accent), getResources().getDimensionPixelSize(R.dimen.scrollbar_inset), 0, 0, 0));
+                    new InsetDrawable(new ColorDrawable(accent), getResources().getDimensionPixelSize(R.dimen.bar_inset), 0, 0, 0));
             drawable.addState(View.EMPTY_STATE_SET,
-                    new InsetDrawable(new ColorDrawable(colorControlNormal), getResources().getDimensionPixelSize(R.dimen.scrollbar_inset), 0, 0, 0));
+                    new InsetDrawable(new ColorDrawable(colorControlNormal), getResources().getDimensionPixelSize(R.dimen.bar_inset), 0, 0, 0));
         } else {
             drawable.addState(View.PRESSED_ENABLED_STATE_SET,
-                    new InsetDrawable(new ColorDrawable(accent), 0, 0, getResources().getDimensionPixelSize(R.dimen.scrollbar_inset), 0));
+                    new InsetDrawable(new ColorDrawable(accent), 0, 0, getResources().getDimensionPixelSize(R.dimen.bar_inset), 0));
             drawable.addState(View.EMPTY_STATE_SET,
-                    new InsetDrawable(new ColorDrawable(colorControlNormal), 0, 0, getResources().getDimensionPixelSize(R.dimen.scrollbar_inset), 0));
+                    new InsetDrawable(new ColorDrawable(colorControlNormal), 0, 0, getResources().getDimensionPixelSize(R.dimen.bar_inset), 0));
         }
         Utils.setViewBackground(mHandle, drawable);
     }
@@ -144,9 +154,9 @@ public class RecyclerFastScroller extends FrameLayout {
         int colorControlNormal = Utils.resolveColor(getContext(), R.attr.colorControlNormal);
 
         if (!Utils.isRTL(getContext())) {
-            drawable = new InsetDrawable(new ColorDrawable(colorControlNormal), getResources().getDimensionPixelSize(R.dimen.scrollbar_inset), 0, 0, 0);
+            drawable = new InsetDrawable(new ColorDrawable(colorControlNormal), getResources().getDimensionPixelSize(R.dimen.bar_inset), 0, 0, 0);
         } else {
-            drawable = new InsetDrawable(new ColorDrawable(colorControlNormal), 0, 0, getResources().getDimensionPixelSize(R.dimen.scrollbar_inset), 0);
+            drawable = new InsetDrawable(new ColorDrawable(colorControlNormal), 0, 0, getResources().getDimensionPixelSize(R.dimen.bar_inset), 0);
         }
         drawable.setAlpha(57);
         Utils.setViewBackground(mBar, drawable);
