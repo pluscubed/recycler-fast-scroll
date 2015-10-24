@@ -1,4 +1,4 @@
-package com.pluscubed.recyclerfastscrollsample;
+package com.pluscubed.recyclerfastscroll;
 
 import android.content.Context;
 import android.content.res.Configuration;

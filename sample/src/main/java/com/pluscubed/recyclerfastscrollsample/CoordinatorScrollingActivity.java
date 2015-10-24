@@ -1,6 +1,5 @@
 package com.pluscubed.recyclerfastscrollsample;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
@@ -12,16 +11,16 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
+import android.widget.TextView;
 
 import com.pluscubed.recyclerfastscroll.RecyclerFastScroller;
 
-public class ScrollingActivity extends AppCompatActivity {
+public class CoordinatorScrollingActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_simple_scrolling);
+        setContentView(R.layout.activity_coordinator_scrolling);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -42,9 +41,6 @@ public class ScrollingActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
@@ -55,53 +51,35 @@ public class ScrollingActivity extends AppCompatActivity {
     }
 
     private class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ViewHolder> {
-
-        private final Class[] demoClasses = {
-                /*CoordinatorScrollingActivity.class*/
-        };
-        private final int[] demoNames = {
-                R.string.coordinator_layout
-        };
-
         @Override
         public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-            View view = LayoutInflater.from(ScrollingActivity.this).inflate(R.layout.list_item_main, parent, false);
+            View view = LayoutInflater.from(CoordinatorScrollingActivity.this).inflate(R.layout.list_item, parent, false);
             return new ViewHolder(view);
         }
 
         @Override
         public void onBindViewHolder(ViewHolder holder, int position) {
-            if (demoClasses.length > position) {
-                holder.button.setText(getString(demoNames[position]));
-            } else {
-                holder.button.setText("Button #" + (position + 1));
-            }
+            holder.textView.setText("Item #" + (position + 1));
         }
 
         @Override
         public int getItemCount() {
-            return 50;
+            return 1000;
         }
 
         class ViewHolder extends RecyclerView.ViewHolder {
-            Button button;
+            TextView textView;
 
             public ViewHolder(View itemView) {
                 super(itemView);
 
-                button = (Button) itemView.findViewById(R.id.list_item_main_button);
+                textView = (TextView) itemView.findViewById(R.id.list_item_text);
 
-                button.setOnClickListener(new View.OnClickListener() {
+                itemView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        int position = getAdapterPosition();
-                        if (demoClasses.length > position) {
-                            Intent i = new Intent(ScrollingActivity.this, demoClasses[position]);
-                            startActivity(i);
-                        } else {
-                            Snackbar.make(v, "You're at " + button.getText(), Snackbar.LENGTH_SHORT)
-                                    .show();
-                        }
+                        Snackbar.make(v, "You're at " + textView.getText(), Snackbar.LENGTH_SHORT)
+                                .show();
                     }
                 });
             }

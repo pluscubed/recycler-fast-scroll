@@ -1,11 +1,10 @@
-package com.pluscubed.recyclerfastscrollsample;
+package com.pluscubed.recyclerfastscroll;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
 import android.content.Context;
-import android.content.res.TypedArray;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.InsetDrawable;
@@ -18,8 +17,6 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.FrameLayout;
 
-import com.pluscubed.recyclerfastscroll.R;
-
 public class RecyclerFastScroller extends FrameLayout {
 
     protected final View mBar;
@@ -27,7 +24,6 @@ public class RecyclerFastScroller extends FrameLayout {
     private final Runnable mHide;
     private final int mMinScrollHandleHeight;
     private final int mHiddenTranslationX;
-    protected RecyclerView.OnScrollListener mOnScrollListener;
     protected OnTouchListener mOnTouchListener;
     private RecyclerView mRecyclerView;
     private AnimatorSet mAnimator;
@@ -49,11 +45,6 @@ public class RecyclerFastScroller extends FrameLayout {
         super(context, attrs, defStyleAttr);
 
         inflate(context, R.layout.vertical_recycler_fast_scroller_layout, this);
-
-        TypedArray a = context.getTheme().obtainStyledAttributes(
-                attrs,
-                R.styleable.RecyclerFastScroller,
-                defStyleAttr, defStyleRes);
 
         mBar = findViewById(R.id.scroll_bar);
         mHandle = findViewById(R.id.scroll_handle);
@@ -168,36 +159,39 @@ public class RecyclerFastScroller extends FrameLayout {
     }
 
     private void initRecyclerViewOnScrollListener() {
-        mOnScrollListener = new RecyclerView.OnScrollListener() {
+        mRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
-                requestLayout();
-
-                mHandle.setEnabled(true);
-                if (!mAnimatingIn && getTranslationX() != 0) {
-                    if (mAnimator != null && mAnimator.isStarted()) {
-                        mAnimator.cancel();
-                    }
-                    mAnimator = new AnimatorSet();
-                    ObjectAnimator animator = ObjectAnimator.ofFloat(RecyclerFastScroller.this, View.TRANSLATION_X, 0);
-                    animator.setInterpolator(new LinearOutSlowInInterpolator());
-                    animator.setDuration(100);
-                    animator.addListener(new AnimatorListenerAdapter() {
-                        @Override
-                        public void onAnimationEnd(Animator animation) {
-                            super.onAnimationEnd(animation);
-                            mAnimatingIn = false;
-                        }
-                    });
-                    mAnimatingIn = true;
-                    mAnimator.play(animator);
-                    mAnimator.start();
-                }
-                postAutoHide();
+                RecyclerFastScroller.this.onScrolled();
             }
-        };
-        mRecyclerView.addOnScrollListener(mOnScrollListener);
+        });
+    }
+
+    private void onScrolled() {
+        requestLayout();
+
+        mHandle.setEnabled(true);
+        if (!mAnimatingIn && getTranslationX() != 0) {
+            if (mAnimator != null && mAnimator.isStarted()) {
+                mAnimator.cancel();
+            }
+            mAnimator = new AnimatorSet();
+            ObjectAnimator animator = ObjectAnimator.ofFloat(RecyclerFastScroller.this, View.TRANSLATION_X, 0);
+            animator.setInterpolator(new LinearOutSlowInInterpolator());
+            animator.setDuration(100);
+            animator.addListener(new AnimatorListenerAdapter() {
+                @Override
+                public void onAnimationEnd(Animator animation) {
+                    super.onAnimationEnd(animation);
+                    mAnimatingIn = false;
+                }
+            });
+            mAnimatingIn = true;
+            mAnimator.play(animator);
+            mAnimator.start();
+        }
+        postAutoHide();
     }
 
     public void setOnHandleTouchListener(OnTouchListener listener) {
