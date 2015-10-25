@@ -20,7 +20,7 @@ repositories {
 
 dependencies {
   // ...
-  compile 'com.plusCubed:recycler-fast-scroll:{latest-version}'
+  compile 'com.github.plusCubed:recycler-fast-scroll:{latest-version}'
 }
 ```
 
