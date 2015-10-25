@@ -9,6 +9,7 @@ import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.InsetDrawable;
 import android.graphics.drawable.StateListDrawable;
+import android.support.annotation.ColorInt;
 import android.support.v4.view.animation.FastOutLinearInInterpolator;
 import android.support.v4.view.animation.LinearOutSlowInInterpolator;
 import android.support.v7.widget.RecyclerView;
@@ -120,7 +121,7 @@ public class RecyclerFastScroller extends FrameLayout {
     /**
      * Provides the ability to programmatically set the color of the fast scroller's handle
      */
-    public void setPressedHandleColor(int accent) {
+    public void setPressedHandleColor(@ColorInt int accent) {
         StateListDrawable drawable = new StateListDrawable();
 
         int colorControlNormal = Utils.resolveColor(getContext(), R.attr.colorControlNormal);
