@@ -55,4 +55,4 @@ See the sample project for complete demos.
 
 <br/>
 <br/>
-Originally based off of [danoz73/RecyclerViewFastScroller](https://github.com/danoz73/RecyclerViewFastScroller).
+Mostly rewritten, but originally based off of [danoz73/RecyclerViewFastScroller](https://github.com/danoz73/RecyclerViewFastScroller).
