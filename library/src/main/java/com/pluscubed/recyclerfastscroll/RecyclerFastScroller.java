@@ -31,9 +31,9 @@ public class RecyclerFastScroller extends FrameLayout {
     private final int mMinScrollHandleHeight;
     private final int mHiddenTranslationX;
     protected OnTouchListener mOnTouchListener;
-    private int mHandleColorNormal;
-    private int mHandleColorPressed;
-    private int mScrollBarColor;
+    private int mHandleNormalColor;
+    private int mHandlePressedColor;
+    private int mBarColor;
     private int mTouchTargetWidth;
     private RecyclerView mRecyclerView;
     private AnimatorSet mAnimator;
@@ -57,32 +57,25 @@ public class RecyclerFastScroller extends FrameLayout {
 
         TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.RecyclerFastScroller, defStyleAttr, defStyleRes);
 
-        mScrollBarColor = a.getColor(
+        mBarColor = a.getColor(
                 R.styleable.RecyclerFastScroller_scrollBarColor,
-                Utils.resolveColor(context, R.attr.colorControlNormal));
+                RecyclerFastScrollerUtils.resolveColor(context, R.attr.colorControlNormal));
 
-        mHandleColorNormal = a.getColor(
+        mHandleNormalColor = a.getColor(
                 R.styleable.RecyclerFastScroller_handleColorNormal,
-                Utils.resolveColor(context, R.attr.colorControlNormal));
+                RecyclerFastScrollerUtils.resolveColor(context, R.attr.colorControlNormal));
 
-        mHandleColorPressed = a.getColor(
+        mHandlePressedColor = a.getColor(
                 R.styleable.RecyclerFastScroller_handleColorPressed,
-                Utils.resolveColor(context, R.attr.colorAccent));
+                RecyclerFastScrollerUtils.resolveColor(context, R.attr.colorAccent));
 
         mTouchTargetWidth = a.getDimensionPixelSize(R.styleable.RecyclerFastScroller_touchTargetWidth,
-                Utils.convertDpToPx(context, 24));
+                RecyclerFastScrollerUtils.convertDpToPx(context, 24));
 
         a.recycle();
 
-        int eightDp = Utils.convertDpToPx(getContext(), 8);
-        mBarInset = mTouchTargetWidth - eightDp;
-
-        int fortyEightDp = Utils.convertDpToPx(context, 48);
+        int fortyEightDp = RecyclerFastScrollerUtils.convertDpToPx(context, 48);
         setLayoutParams(new ViewGroup.LayoutParams(fortyEightDp, ViewGroup.LayoutParams.MATCH_PARENT));
-
-        if (mTouchTargetWidth > fortyEightDp) {
-            throw new RuntimeException("Touch target width cannot be larger than 48dp!");
-        }
 
         mBar = new View(context);
         mHandle = new View(context);
@@ -93,7 +86,8 @@ public class RecyclerFastScroller extends FrameLayout {
 
         mMinScrollHandleHeight = fortyEightDp;
 
-        mHiddenTranslationX = (Utils.isRTL(getContext()) ? -1 : 1) * eightDp;
+        int eightDp = RecyclerFastScrollerUtils.convertDpToPx(getContext(), 8);
+        mHiddenTranslationX = (RecyclerFastScrollerUtils.isRTL(getContext()) ? -1 : 1) * eightDp;
         mHide = new Runnable() {
             @Override
             public void run() {
@@ -156,53 +150,91 @@ public class RecyclerFastScroller extends FrameLayout {
         setTranslationX(mHiddenTranslationX);
     }
 
+    @ColorInt
+    public int getHandlePressedColor() {
+        return mHandlePressedColor;
+    }
+
+    public void setHandlePressedColor(@ColorInt int colorPressed) {
+        mHandlePressedColor = colorPressed;
+        updateHandleColorsAndInset();
+    }
+
+    @ColorInt
+    public int getHandleNormalColor() {
+        return mHandleNormalColor;
+    }
+
+    public void setHandleNormalColor(@ColorInt int colorNormal) {
+        mHandleNormalColor = colorNormal;
+        updateHandleColorsAndInset();
+    }
+
+    @ColorInt
+    public int getBarColor() {
+        return mBarColor;
+    }
+
     /**
-     * Convenience method, resolves default ?colorControlNormal for {@link #setHandleColor(int, int)}.
+     * @param scrollBarColor Scroll bar color. Alpha will be set to ~22% to match stock scrollbar.
      */
-    public void setPressedHandleColor(@ColorInt int colorPressed) {
-        setHandleColor(colorPressed, Utils.resolveColor(getContext(), R.attr.colorControlNormal));
-    }
-
-    public void setHandleColor(@ColorInt int colorPressed, @ColorInt int colorNormal) {
-        StateListDrawable drawable = new StateListDrawable();
-
-        if (!Utils.isRTL(getContext())) {
-            drawable.addState(View.PRESSED_ENABLED_STATE_SET,
-                    new InsetDrawable(new ColorDrawable(colorPressed), mBarInset, 0, 0, 0));
-            drawable.addState(View.EMPTY_STATE_SET,
-                    new InsetDrawable(new ColorDrawable(colorNormal), mBarInset, 0, 0, 0));
-        } else {
-            drawable.addState(View.PRESSED_ENABLED_STATE_SET,
-                    new InsetDrawable(new ColorDrawable(colorPressed), 0, 0, mBarInset, 0));
-            drawable.addState(View.EMPTY_STATE_SET,
-                    new InsetDrawable(new ColorDrawable(colorNormal), 0, 0, mBarInset, 0));
-        }
-        Utils.setViewBackground(mHandle, drawable);
-    }
-
     public void setBarColor(@ColorInt int scrollBarColor) {
-        Drawable drawable;
+        mBarColor = scrollBarColor;
+        updateBarColorAndInset();
+    }
 
-        if (!Utils.isRTL(getContext())) {
-            drawable = new InsetDrawable(new ColorDrawable(scrollBarColor), mBarInset, 0, 0, 0);
-        } else {
-            drawable = new InsetDrawable(new ColorDrawable(scrollBarColor), 0, 0, mBarInset, 0);
-        }
-        drawable.setAlpha(57);
-        Utils.setViewBackground(mBar, drawable);
+    public int getTouchTargetWidth() {
+        return mTouchTargetWidth;
     }
 
     /**
-     * @param touchTargetWidth Largest touch target width is 48dp
+     * @param touchTargetWidth In pixels, less than or equal to 48dp
      */
     public void setTouchTargetWidth(int touchTargetWidth) {
         mTouchTargetWidth = touchTargetWidth;
 
+        int eightDp = RecyclerFastScrollerUtils.convertDpToPx(getContext(), 8);
+        mBarInset = mTouchTargetWidth - eightDp;
+
+        int fortyEightDp = RecyclerFastScrollerUtils.convertDpToPx(getContext(), 48);
+        if (mTouchTargetWidth > fortyEightDp) {
+            throw new RuntimeException("Touch target width cannot be larger than 48dp!");
+        }
+
         mBar.setLayoutParams(new LayoutParams(touchTargetWidth, ViewGroup.LayoutParams.MATCH_PARENT, GravityCompat.END));
         mHandle.setLayoutParams(new LayoutParams(touchTargetWidth, ViewGroup.LayoutParams.MATCH_PARENT, GravityCompat.END));
 
-        setHandleColor(mHandleColorPressed, mHandleColorNormal);
-        setBarColor(mScrollBarColor);
+        updateHandleColorsAndInset();
+        updateBarColorAndInset();
+    }
+
+    private void updateHandleColorsAndInset() {
+        StateListDrawable drawable = new StateListDrawable();
+
+        if (!RecyclerFastScrollerUtils.isRTL(getContext())) {
+            drawable.addState(View.PRESSED_ENABLED_STATE_SET,
+                    new InsetDrawable(new ColorDrawable(mHandlePressedColor), mBarInset, 0, 0, 0));
+            drawable.addState(View.EMPTY_STATE_SET,
+                    new InsetDrawable(new ColorDrawable(mHandleNormalColor), mBarInset, 0, 0, 0));
+        } else {
+            drawable.addState(View.PRESSED_ENABLED_STATE_SET,
+                    new InsetDrawable(new ColorDrawable(mHandlePressedColor), 0, 0, mBarInset, 0));
+            drawable.addState(View.EMPTY_STATE_SET,
+                    new InsetDrawable(new ColorDrawable(mHandleNormalColor), 0, 0, mBarInset, 0));
+        }
+        RecyclerFastScrollerUtils.setViewBackground(mHandle, drawable);
+    }
+
+    private void updateBarColorAndInset() {
+        Drawable drawable;
+
+        if (!RecyclerFastScrollerUtils.isRTL(getContext())) {
+            drawable = new InsetDrawable(new ColorDrawable(mBarColor), mBarInset, 0, 0, 0);
+        } else {
+            drawable = new InsetDrawable(new ColorDrawable(mBarColor), 0, 0, mBarInset, 0);
+        }
+        drawable.setAlpha(57);
+        RecyclerFastScrollerUtils.setViewBackground(mBar, drawable);
     }
 
     public void setRecyclerView(RecyclerView recyclerView) {

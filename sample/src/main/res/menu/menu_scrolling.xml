@@ -4,18 +4,18 @@
     tools:context=".ScrollingActivity">
     <item
         android:id="@+id/menu_handle_color"
-        android:title="Handle Normal Color"
+        android:title="@string/handle_normal_color"
         app:showAsAction="never" />
     <item
-        android:id="@+id/menu_pressed_color"
-        android:title="Handle Pressed Color"
+        android:id="@+id/menu_handle_pressed_color"
+        android:title="@string/handle_pressed_color"
         app:showAsAction="never" />
     <item
         android:id="@+id/menu_bar_color"
-        android:title="Scrollbar Color"
+        android:title="@string/scrollbar_color"
         app:showAsAction="never" />
     <item
         android:id="@+id/menu_touch_target_width"
-        android:title="Touch Target Width"
+        android:title="@string/touch_target_width"
         app:showAsAction="never" />
 </menu>

@@ -9,7 +9,7 @@ import android.support.annotation.AttrRes;
 import android.support.annotation.ColorInt;
 import android.view.View;
 
-class Utils {
+public class RecyclerFastScrollerUtils {
     public static void setViewBackground(View view, Drawable background) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
             view.setBackground(background);
@@ -37,7 +37,6 @@ class Utils {
     }
 
     public static int convertDpToPx(Context context, float dp) {
-        return (int) (dp * context.getResources().getDisplayMetrics().density
-                + 0.5f);
+        return (int) (dp * context.getResources().getDisplayMetrics().density + 0.5f);
     }
 }

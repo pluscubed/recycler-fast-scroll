@@ -2,4 +2,11 @@
     <string name="app_name">RecyclerFastScroll Sample</string>
 
     <string name="coordinator_layout">Coordinator Layout Demo</string>
+
+    <string name="handle_normal_color">Handle Normal Color</string>
+    <string name="handle_pressed_color">Handle Pressed Color</string>
+    <string name="scrollbar_color">Scrollbar Color</string>
+    <string name="touch_target_width">Touch Target Width</string>
+    <string name="touch_target_size_invalid">Touch target size must be a number less than or equal to 48</string>
+
 </resources>
