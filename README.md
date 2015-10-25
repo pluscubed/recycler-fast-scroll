@@ -1,5 +1,7 @@
 # Recycler Fast Scroll
 
+![Art](./art/small.gif)
+
 Widget for `RecyclerView` fast scrolling, like Android's built-in fast scroll option for `ListView`.
 
 Currently only supports verically-scrolling `LayoutManager`s.  
@@ -49,6 +51,7 @@ See the sample project for complete demos.
 
 ### Customization
  - `setPressedHandleColor(int color)`: Color of pressed handle. Defaults to `?colorAccent`.
+ - `setOnHandleTouchListener(OnTouchListener listener)`: Set listener for handle touch events.
 
 <br/>
 <br/>
