@@ -5,6 +5,7 @@ import android.animation.AnimatorListenerAdapter;
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
 import android.content.Context;
+import android.content.res.TypedArray;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.InsetDrawable;
@@ -113,42 +114,55 @@ public class RecyclerFastScroller extends FrameLayout {
 
         setTranslationX(mHiddenTranslationX);
 
+        TypedArray a = context.obtainStyledAttributes(attrs,
+                R.styleable.RecyclerFastScroller);
+
+        int scrollBarColor = a.getColor(
+                R.styleable.RecyclerFastScroller_scrollBarColor,
+                Utils.resolveColor(context, R.attr.colorControlNormal));
+
+        int handleColorNormal = a.getColor(
+                R.styleable.RecyclerFastScroller_handleColorNormal,
+                Utils.resolveColor(context, R.attr.colorControlNormal));
+
+        int handleColorPressed = a.getColor(
+                R.styleable.RecyclerFastScroller_handleColorPressed,
+                Utils.resolveColor(context, R.attr.colorAccent));
+
+        a.recycle();
+
         //Default selected handle color
-        setPressedHandleColor(Utils.resolveColor(getContext(), R.attr.colorAccent));
-        setUpBarBackground();
+        setPressedHandleColor(handleColorPressed, handleColorNormal);
+        setUpBarBackground(scrollBarColor);
     }
 
     /**
      * Provides the ability to programmatically set the color of the fast scroller's handle
      */
-    public void setPressedHandleColor(@ColorInt int accent) {
+    public void setPressedHandleColor(@ColorInt int colorPressed, @ColorInt int colorNormal) {
         StateListDrawable drawable = new StateListDrawable();
-
-        int colorControlNormal = Utils.resolveColor(getContext(), R.attr.colorControlNormal);
 
         if (!Utils.isRTL(getContext())) {
             drawable.addState(View.PRESSED_ENABLED_STATE_SET,
-                    new InsetDrawable(new ColorDrawable(accent), getResources().getDimensionPixelSize(R.dimen.bar_inset), 0, 0, 0));
+                    new InsetDrawable(new ColorDrawable(colorPressed), getResources().getDimensionPixelSize(R.dimen.bar_inset), 0, 0, 0));
             drawable.addState(View.EMPTY_STATE_SET,
-                    new InsetDrawable(new ColorDrawable(colorControlNormal), getResources().getDimensionPixelSize(R.dimen.bar_inset), 0, 0, 0));
+                    new InsetDrawable(new ColorDrawable(colorNormal), getResources().getDimensionPixelSize(R.dimen.bar_inset), 0, 0, 0));
         } else {
             drawable.addState(View.PRESSED_ENABLED_STATE_SET,
-                    new InsetDrawable(new ColorDrawable(accent), 0, 0, getResources().getDimensionPixelSize(R.dimen.bar_inset), 0));
+                    new InsetDrawable(new ColorDrawable(colorPressed), 0, 0, getResources().getDimensionPixelSize(R.dimen.bar_inset), 0));
             drawable.addState(View.EMPTY_STATE_SET,
-                    new InsetDrawable(new ColorDrawable(colorControlNormal), 0, 0, getResources().getDimensionPixelSize(R.dimen.bar_inset), 0));
+                    new InsetDrawable(new ColorDrawable(colorNormal), 0, 0, getResources().getDimensionPixelSize(R.dimen.bar_inset), 0));
         }
         Utils.setViewBackground(mHandle, drawable);
     }
 
-    private void setUpBarBackground() {
+    private void setUpBarBackground(@ColorInt int scrollBarColor) {
         Drawable drawable;
 
-        int colorControlNormal = Utils.resolveColor(getContext(), R.attr.colorControlNormal);
-
         if (!Utils.isRTL(getContext())) {
-            drawable = new InsetDrawable(new ColorDrawable(colorControlNormal), getResources().getDimensionPixelSize(R.dimen.bar_inset), 0, 0, 0);
+            drawable = new InsetDrawable(new ColorDrawable(scrollBarColor), getResources().getDimensionPixelSize(R.dimen.bar_inset), 0, 0, 0);
         } else {
-            drawable = new InsetDrawable(new ColorDrawable(colorControlNormal), 0, 0, getResources().getDimensionPixelSize(R.dimen.bar_inset), 0);
+            drawable = new InsetDrawable(new ColorDrawable(scrollBarColor), 0, 0, getResources().getDimensionPixelSize(R.dimen.bar_inset), 0);
         }
         drawable.setAlpha(57);
         Utils.setViewBackground(mBar, drawable);
