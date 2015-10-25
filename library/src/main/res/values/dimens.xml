@@ -1,5 +1,2 @@
 <resources>
-    <dimen name="min_handle_height">48dp</dimen>
-    <dimen name="bar_width">8dp</dimen>
-    <dimen name="bar_inset">16dp</dimen>
 </resources>

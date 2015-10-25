@@ -4,5 +4,6 @@
         <attr name="scrollBarColor" format="color"/>
         <attr name="handleColorNormal" format="color"/>
         <attr name="handleColorPressed" format="color"/>
+        <attr name="touchTargetWidth" format="dimension" />
     </declare-styleable>
 </resources>

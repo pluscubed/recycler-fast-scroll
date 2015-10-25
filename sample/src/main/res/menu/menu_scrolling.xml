@@ -3,8 +3,19 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context=".ScrollingActivity">
     <item
-        android:id="@+id/action_settings"
-        android:orderInCategory="100"
-        android:title="@string/action_settings"
+        android:id="@+id/menu_handle_color"
+        android:title="Handle Normal Color"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/menu_pressed_color"
+        android:title="Handle Pressed Color"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/menu_bar_color"
+        android:title="Scrollbar Color"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/menu_touch_target_width"
+        android:title="Touch Target Width"
         app:showAsAction="never" />
 </menu>

@@ -2,6 +2,4 @@
     <string name="app_name">RecyclerFastScroll Sample</string>
 
     <string name="coordinator_layout">Coordinator Layout Demo</string>
-
-    <string name="action_settings">Settings</string>
 </resources>
