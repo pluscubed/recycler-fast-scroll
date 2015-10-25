@@ -7,10 +7,7 @@ Planned features are listed at the [issues page](https://github.com/plusCubed/re
 You can download the sample APK from the [releases page](https://github.com/plusCubed/recycler-fast-scroll/releases).
 
 ### Dependency
-
-[![Release](https://img.shields.io/github/release/plusCubed/recycler-fast-scroll.svg?label=jitpack)](https://jitpack.io/#com.pluscubed/recycler-fast-scroll)  
-
-
+[![Release](https://img.shields.io/github/release/plusCubed/recycler-fast-scroll.svg?label=JitPack)](https://jitpack.io/#com.pluscubed/recycler-fast-scroll)  
 Add the jitpack.io repo and this library to `build.gradle`:
 ```Gradle
 repositories {
@@ -48,7 +45,10 @@ dependencies {
     fastScroller.setRecyclerView(recyclerView);
     ```
 
-See the sample project for more use cases.
+See the sample project for complete demos.
+
+### Customization
+ - `setPressedHandleColor(int color)`: Color of pressed handle. Defaults to `?colorAccent`.
 
 <br/>
 <br/>
