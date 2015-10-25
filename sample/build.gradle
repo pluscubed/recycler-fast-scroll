@@ -11,10 +11,28 @@ android {
         versionCode 1
         versionName "0.1.0"
     }
+
+    if (project.hasProperty("RELEASE_STORE_FILE")) {
+        signingConfigs {
+            release {
+                storeFile file(RELEASE_STORE_FILE)
+                storePassword RELEASE_STORE_PASSWORD
+                keyAlias RELEASE_KEY_ALIAS_RECYCLER_FAST_SROLLER
+                keyPassword RELEASE_KEY_PASSWORD_RECYCLER_FAST_SROLLER
+            }
+        }
+    }
+
     buildTypes {
         release {
             minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            shrinkResources false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            if (project.hasProperty("RELEASE_STORE_FILE")) {
+                signingConfig signingConfigs.release
+            } else {
+                signingConfig signingConfigs.debug
+            }
         }
     }
 }
