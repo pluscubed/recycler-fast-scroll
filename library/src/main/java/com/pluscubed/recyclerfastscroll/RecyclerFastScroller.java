@@ -118,6 +118,7 @@ public class RecyclerFastScroller extends FrameLayout {
                 }
                 if (event.getActionMasked() == MotionEvent.ACTION_DOWN) {
                     mHandle.setPressed(true);
+                    mRecyclerView.stopScroll();
 
                     mInitialBarHeight = mBar.getHeight();
                     mLastPressedYAdjustedToInitial = event.getY() + mHandle.getY() + mBar.getY();
