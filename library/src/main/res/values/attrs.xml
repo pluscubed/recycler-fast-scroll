@@ -2,8 +2,8 @@
 <resources>
     <declare-styleable name="RecyclerFastScroller">
         <attr name="barColor" format="color" />
-        <attr name="handleColorNormal" format="color"/>
-        <attr name="handleColorPressed" format="color"/>
+        <attr name="handleNormalColor" format="color" />
+        <attr name="handlePressedColor" format="color" />
         <attr name="touchTargetWidth" format="dimension" />
     </declare-styleable>
 </resources>

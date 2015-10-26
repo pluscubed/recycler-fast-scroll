@@ -62,11 +62,11 @@ public class RecyclerFastScroller extends FrameLayout {
                 RecyclerFastScrollerUtils.resolveColor(context, R.attr.colorControlNormal));
 
         mHandleNormalColor = a.getColor(
-                R.styleable.RecyclerFastScroller_handleColorNormal,
+                R.styleable.RecyclerFastScroller_handleNormalColor,
                 RecyclerFastScrollerUtils.resolveColor(context, R.attr.colorControlNormal));
 
         mHandlePressedColor = a.getColor(
-                R.styleable.RecyclerFastScroller_handleColorPressed,
+                R.styleable.RecyclerFastScroller_handlePressedColor,
                 RecyclerFastScrollerUtils.resolveColor(context, R.attr.colorAccent));
 
         mTouchTargetWidth = a.getDimensionPixelSize(R.styleable.RecyclerFastScroller_touchTargetWidth,
