@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <declare-styleable name="RecyclerFastScroller">
-        <attr name="barColor" format="color" />
-        <attr name="handleNormalColor" format="color" />
-        <attr name="handlePressedColor" format="color" />
-        <attr name="touchTargetWidth" format="dimension" />
+        <attr name="rfs_barColor" format="color" />
+        <attr name="rfs_handleNormalColor" format="color" />
+        <attr name="rfs_handlePressedColor" format="color" />
+        <attr name="rfs_touchTargetWidth" format="dimension" />
     </declare-styleable>
 </resources>
