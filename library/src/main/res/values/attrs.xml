@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <declare-styleable name="RecyclerFastScroller">
-        <attr name="scrollBarColor" format="color"/>
+        <attr name="barColor" format="color" />
         <attr name="handleColorNormal" format="color"/>
         <attr name="handleColorPressed" format="color"/>
         <attr name="touchTargetWidth" format="dimension" />

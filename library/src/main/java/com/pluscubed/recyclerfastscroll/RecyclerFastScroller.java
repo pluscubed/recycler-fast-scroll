@@ -58,7 +58,7 @@ public class RecyclerFastScroller extends FrameLayout {
         TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.RecyclerFastScroller, defStyleAttr, defStyleRes);
 
         mBarColor = a.getColor(
-                R.styleable.RecyclerFastScroller_scrollBarColor,
+                R.styleable.RecyclerFastScroller_barColor,
                 RecyclerFastScrollerUtils.resolveColor(context, R.attr.colorControlNormal));
 
         mHandleNormalColor = a.getColor(
