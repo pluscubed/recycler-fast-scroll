@@ -50,7 +50,7 @@ The library is versioned according to [Semantic Versioning](http://semver.org/).
 
 See the sample project for complete demos.
 
-### Customization & methods
+### Customization & Methods
 | Method | Attribute | Description |
 | --- | --- | --- |
 | `setBarColor(int color)`| `rfs_barColor` | Color of scrollbar. Defaults to `colorControlNormal` attribute. Alpha of ~22% is applied to the drawable to match stock `ListView` fast scroller. |
