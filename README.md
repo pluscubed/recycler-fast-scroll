@@ -22,6 +22,7 @@ dependencies {
   compile 'com.github.plusCubed:recycler-fast-scroll:{latest-version}'
 }
 ```
+The library is versioned according to [Semantic Versioning](http://semver.org/).
 
 ### Usage
 1. Add the widget to your layout file, e.g.:
