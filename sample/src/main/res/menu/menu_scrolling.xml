@@ -18,4 +18,8 @@
         android:id="@+id/menu_touch_target_width"
         android:title="@string/touch_target_width"
         app:showAsAction="never" />
+    <item
+        android:id="@+id/menu_hide_delay"
+        android:title="@string/hide_delay"
+        app:showAsAction="never" />
 </menu>

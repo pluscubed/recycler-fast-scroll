@@ -128,6 +128,41 @@ public class ScrollingActivity extends AppCompatActivity implements ColorChooser
                     })
                     .show();
             return true;
+        } else if (itemId == R.id.menu_hide_delay) {
+            new MaterialDialog.Builder(this)
+                    .title(R.string.hide_delay)
+                    .positiveText(android.R.string.ok)
+                    .negativeText(android.R.string.cancel)
+                    .inputType(InputType.TYPE_CLASS_NUMBER)
+                    .input(null, String.valueOf(mRecyclerFastScroller.getHideDelay()), false,
+                            new MaterialDialog.InputCallback() {
+                                @Override
+                                public void onInput(@NonNull MaterialDialog materialDialog,
+                                        CharSequence charSequence) {
+                                    try {
+                                        if (Integer.parseInt(charSequence.toString()) >= 0) {
+                                            materialDialog.getActionButton(DialogAction.POSITIVE).setEnabled(true);
+                                        } else {
+                                            throw new NumberFormatException();
+                                        }
+                                    } catch (NumberFormatException e) {
+                                        Toast.makeText(ScrollingActivity.this,R.string.hide_delay_invalid, Toast.LENGTH_SHORT).show();
+                                        materialDialog.getActionButton(DialogAction.POSITIVE).setEnabled(false);
+                                    }
+                                }
+                            })
+                    .alwaysCallInputCallback()
+                    .onPositive(new MaterialDialog.SingleButtonCallback() {
+                        @Override
+                        public void onClick(@NonNull MaterialDialog materialDialog,
+                                @NonNull DialogAction dialogAction) {
+                            int input = Integer.parseInt(
+                                    materialDialog.getInputEditText().getText().toString());
+                            mRecyclerFastScroller.setHideDelay(input);
+                        }
+                    })
+                    .show();
+            return true;
         }
         return super.onOptionsItemSelected(item);
     }
