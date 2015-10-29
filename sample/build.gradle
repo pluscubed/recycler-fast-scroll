@@ -9,7 +9,7 @@ android {
         minSdkVersion 14
         targetSdkVersion 23
         versionCode 1
-        versionName "0.1.0"
+        versionName "0.2.0"
     }
 
     if (project.hasProperty("RELEASE_STORE_FILE")) {
@@ -46,5 +46,7 @@ dependencies {
     testCompile 'junit:junit:4.12'
     compile 'com.android.support:appcompat-v7:23.1.0'
     compile 'com.android.support:design:23.1.0'
+    compile 'com.afollestad.material-dialogs:core:0.8.4.2'
+    compile 'com.afollestad.material-dialogs:commons:0.8.4.2'
     compile project(':library')
 }
