@@ -23,10 +23,13 @@ import android.widget.FrameLayout;
 
 public class RecyclerFastScroller extends FrameLayout {
 
+    private static final int DEFAULT_AUTO_HIDE_DELAY = 1500;
+
     protected final View mBar;
     protected final View mHandle;
 
     private final Runnable mHide;
+    private int mHideDelay;
 
     private final int mMinScrollHandleHeight;
     private final int mHiddenTranslationX;
@@ -69,8 +72,12 @@ public class RecyclerFastScroller extends FrameLayout {
                 R.styleable.RecyclerFastScroller_rfs_handlePressedColor,
                 RecyclerFastScrollerUtils.resolveColor(context, R.attr.colorAccent));
 
-        mTouchTargetWidth = a.getDimensionPixelSize(R.styleable.RecyclerFastScroller_rfs_touchTargetWidth,
+        mTouchTargetWidth = a.getDimensionPixelSize(
+                R.styleable.RecyclerFastScroller_rfs_touchTargetWidth,
                 RecyclerFastScrollerUtils.convertDpToPx(context, 24));
+
+        mHideDelay = a.getInt(R.styleable.RecyclerFastScroller_rfs_hideDelay,
+                DEFAULT_AUTO_HIDE_DELAY);
 
         a.recycle();
 
@@ -184,6 +191,17 @@ public class RecyclerFastScroller extends FrameLayout {
         updateBarColorAndInset();
     }
 
+    public int getHideDelay() {
+        return mHideDelay;
+    }
+
+    /**
+     * @param hideDelay the delay in millis to hide the scrollbar
+     */
+    public void setHideDelay(int hideDelay) {
+        mHideDelay = hideDelay;
+    }
+
     public int getTouchTargetWidth() {
         return mTouchTargetWidth;
     }
@@ -286,7 +304,7 @@ public class RecyclerFastScroller extends FrameLayout {
     private void postAutoHide() {
         if (mRecyclerView != null) {
             mRecyclerView.removeCallbacks(mHide);
-            mRecyclerView.postDelayed(mHide, 1500);
+            mRecyclerView.postDelayed(mHide, mHideDelay);
         }
     }
 
