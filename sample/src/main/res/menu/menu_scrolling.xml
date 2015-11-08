@@ -1,25 +1,5 @@
-<menu xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
+<menu xmlns:tools="http://schemas.android.com/tools"
     tools:context=".ScrollingActivity">
-    <item
-        android:id="@+id/menu_handle_color"
-        android:title="@string/handle_normal_color"
-        app:showAsAction="never" />
-    <item
-        android:id="@+id/menu_handle_pressed_color"
-        android:title="@string/handle_pressed_color"
-        app:showAsAction="never" />
-    <item
-        android:id="@+id/menu_bar_color"
-        android:title="@string/scrollbar_color"
-        app:showAsAction="never" />
-    <item
-        android:id="@+id/menu_touch_target_width"
-        android:title="@string/touch_target_width"
-        app:showAsAction="never" />
-    <item
-        android:id="@+id/menu_hide_delay"
-        android:title="@string/hide_delay"
-        app:showAsAction="never" />
+
+
 </menu>

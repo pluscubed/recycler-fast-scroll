@@ -29,11 +29,11 @@ public class RecyclerFastScroller extends FrameLayout {
     protected final View mHandle;
 
     private final Runnable mHide;
-    private int mHideDelay;
-
     private final int mMinScrollHandleHeight;
     private final int mHiddenTranslationX;
     protected OnTouchListener mOnTouchListener;
+    private int mHideDelay;
+    private boolean mHidingEnabled;
     private int mHandleNormalColor;
     private int mHandlePressedColor;
     private int mBarColor;
@@ -78,6 +78,8 @@ public class RecyclerFastScroller extends FrameLayout {
 
         mHideDelay = a.getInt(R.styleable.RecyclerFastScroller_rfs_hideDelay,
                 DEFAULT_AUTO_HIDE_DELAY);
+
+        mHidingEnabled = a.getBoolean(R.styleable.RecyclerFastScroller_rfs_hidingEnabled, true);
 
         a.recycle();
 
@@ -227,6 +229,17 @@ public class RecyclerFastScroller extends FrameLayout {
         updateBarColorAndInset();
     }
 
+    public boolean isHidingEnabled() {
+        return mHidingEnabled;
+    }
+
+    /**
+     * @param hidingEnabled whether hiding is enabled
+     */
+    public void setHidingEnabled(boolean hidingEnabled) {
+        mHidingEnabled = hidingEnabled;
+    }
+
     private void updateHandleColorsAndInset() {
         StateListDrawable drawable = new StateListDrawable();
 
@@ -302,7 +315,7 @@ public class RecyclerFastScroller extends FrameLayout {
     }
 
     private void postAutoHide() {
-        if (mRecyclerView != null) {
+        if (mRecyclerView != null && mHidingEnabled) {
             mRecyclerView.removeCallbacks(mHide);
             mRecyclerView.postDelayed(mHide, mHideDelay);
         }

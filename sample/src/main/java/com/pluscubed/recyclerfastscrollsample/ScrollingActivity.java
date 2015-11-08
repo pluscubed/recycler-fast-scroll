@@ -12,7 +12,6 @@ import android.support.v7.widget.Toolbar;
 import android.text.InputType;
 import android.view.LayoutInflater;
 import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -69,105 +68,110 @@ public class ScrollingActivity extends AppCompatActivity implements ColorChooser
         }
     }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        int itemId = item.getItemId();
 
-        if (itemId == R.id.menu_handle_color || itemId == R.id.menu_bar_color || itemId == R.id.menu_handle_pressed_color) {
-            int colorChooserDialogTitle = 0;
-            int preselectColor = 0;
-            switch (itemId) {
-                case R.id.menu_handle_color:
-                    colorChooserDialogTitle = R.string.handle_normal_color;
-                    preselectColor = mRecyclerFastScroller.getHandleNormalColor();
-                    break;
-                case R.id.menu_handle_pressed_color:
-                    colorChooserDialogTitle = R.string.handle_pressed_color;
-                    preselectColor = mRecyclerFastScroller.getHandlePressedColor();
-                    break;
-                case R.id.menu_bar_color:
-                    colorChooserDialogTitle = R.string.scrollbar_color;
-                    preselectColor = mRecyclerFastScroller.getBarColor();
-                    break;
-            }
-            new ColorChooserDialog.Builder(this, colorChooserDialogTitle)
-                    .accentMode(itemId == R.id.menu_handle_pressed_color)
-                    .preselect(preselectColor)
-                    .show();
-            return true;
-        } else if (itemId == R.id.menu_touch_target_width) {
-            new MaterialDialog.Builder(this)
-                    .title(R.string.touch_target_width)
-                    .positiveText(android.R.string.ok)
-                    .negativeText(android.R.string.cancel)
-                    .inputType(InputType.TYPE_CLASS_NUMBER)
-                    .input(null, String.valueOf(convertPxToDp(this, mRecyclerFastScroller.getTouchTargetWidth())),
-                            new MaterialDialog.InputCallback() {
-                                @Override
-                                public void onInput(@NonNull MaterialDialog materialDialog, CharSequence charSequence) {
-                                    try {
-                                        if (Integer.parseInt(charSequence.toString()) <= 48) {
-                                            materialDialog.getActionButton(DialogAction.POSITIVE).setEnabled(true);
-                                        } else {
-                                            throw new NumberFormatException();
-                                        }
-                                    } catch (NumberFormatException e) {
-                                        Toast.makeText(ScrollingActivity.this, R.string.touch_target_size_invalid, Toast.LENGTH_SHORT).show();
-                                        materialDialog.getActionButton(DialogAction.POSITIVE).setEnabled(false);
-                                    }
-                                }
-                            })
-                    .alwaysCallInputCallback()
-                    .onPositive(new MaterialDialog.SingleButtonCallback() {
-                        @Override
-                        public void onClick(@NonNull MaterialDialog materialDialog, @NonNull DialogAction dialogAction) {
-                            int input = Integer.parseInt(materialDialog.getInputEditText().getText().toString());
-                            mRecyclerFastScroller.setTouchTargetWidth(
-                                    RecyclerFastScrollerUtils.convertDpToPx(ScrollingActivity.this, input));
-                        }
-                    })
-                    .show();
-            return true;
-        } else if (itemId == R.id.menu_hide_delay) {
-            new MaterialDialog.Builder(this)
-                    .title(R.string.hide_delay)
-                    .positiveText(android.R.string.ok)
-                    .negativeText(android.R.string.cancel)
-                    .inputType(InputType.TYPE_CLASS_NUMBER)
-                    .input(null, String.valueOf(mRecyclerFastScroller.getHideDelay()), false,
-                            new MaterialDialog.InputCallback() {
-                                @Override
-                                public void onInput(@NonNull MaterialDialog materialDialog,
-                                        CharSequence charSequence) {
-                                    try {
-                                        if (Integer.parseInt(charSequence.toString()) >= 0) {
-                                            materialDialog.getActionButton(DialogAction.POSITIVE).setEnabled(true);
-                                        } else {
-                                            throw new NumberFormatException();
-                                        }
-                                    } catch (NumberFormatException e) {
-                                        Toast.makeText(ScrollingActivity.this,R.string.hide_delay_invalid, Toast.LENGTH_SHORT).show();
-                                        materialDialog.getActionButton(DialogAction.POSITIVE).setEnabled(false);
-                                    }
-                                }
-                            })
-                    .alwaysCallInputCallback()
-                    .onPositive(new MaterialDialog.SingleButtonCallback() {
-                        @Override
-                        public void onClick(@NonNull MaterialDialog materialDialog,
-                                @NonNull DialogAction dialogAction) {
-                            int input = Integer.parseInt(
-                                    materialDialog.getInputEditText().getText().toString());
-                            mRecyclerFastScroller.setHideDelay(input);
-                        }
-                    })
-                    .show();
-            return true;
+    private void customizeColors(int title) {
+        int colorChooserDialogTitle = 0;
+        int preselectColor = 0;
+        switch (title) {
+            case R.string.handle_normal_color:
+                colorChooserDialogTitle = R.string.handle_normal_color;
+                preselectColor = mRecyclerFastScroller.getHandleNormalColor();
+                break;
+            case R.string.handle_pressed_color:
+                colorChooserDialogTitle = R.string.handle_pressed_color;
+                preselectColor = mRecyclerFastScroller.getHandlePressedColor();
+                break;
+            case R.string.scrollbar_color:
+                colorChooserDialogTitle = R.string.scrollbar_color;
+                preselectColor = mRecyclerFastScroller.getBarColor();
+                break;
         }
-        return super.onOptionsItemSelected(item);
+        new ColorChooserDialog.Builder(this, colorChooserDialogTitle)
+                .accentMode(title == R.string.handle_pressed_color)
+                .preselect(preselectColor)
+                .show();
+    }
+
+    private void customizeTouchTargetWidth() {
+        new MaterialDialog.Builder(this)
+                .title(R.string.touch_target_width)
+                .positiveText(android.R.string.ok)
+                .negativeText(android.R.string.cancel)
+                .inputType(InputType.TYPE_CLASS_NUMBER)
+                .input(null, String.valueOf(convertPxToDp(this, mRecyclerFastScroller.getTouchTargetWidth())),
+                        new MaterialDialog.InputCallback() {
+                            @Override
+                            public void onInput(@NonNull MaterialDialog materialDialog, CharSequence charSequence) {
+                                try {
+                                    if (Integer.parseInt(charSequence.toString()) <= 48) {
+                                        materialDialog.getActionButton(DialogAction.POSITIVE).setEnabled(true);
+                                    } else {
+                                        throw new NumberFormatException();
+                                    }
+                                } catch (NumberFormatException e) {
+                                    Toast.makeText(ScrollingActivity.this, R.string.touch_target_size_invalid, Toast.LENGTH_SHORT).show();
+                                    materialDialog.getActionButton(DialogAction.POSITIVE).setEnabled(false);
+                                }
+                            }
+                        })
+                .alwaysCallInputCallback()
+                .onPositive(new MaterialDialog.SingleButtonCallback() {
+                    @Override
+                    public void onClick(@NonNull MaterialDialog materialDialog, @NonNull DialogAction dialogAction) {
+                        int input = Integer.parseInt(materialDialog.getInputEditText().getText().toString());
+                        mRecyclerFastScroller.setTouchTargetWidth(
+                                RecyclerFastScrollerUtils.convertDpToPx(ScrollingActivity.this, input));
+                    }
+                })
+                .show();
+    }
+
+    private void customizeHideDelay() {
+        new MaterialDialog.Builder(this)
+                .title(R.string.hide_delay)
+                .positiveText(android.R.string.ok)
+                .negativeText(android.R.string.cancel)
+                .inputType(InputType.TYPE_CLASS_NUMBER)
+                .input(null, String.valueOf(mRecyclerFastScroller.getHideDelay()), false,
+                        new MaterialDialog.InputCallback() {
+                            @Override
+                            public void onInput(@NonNull MaterialDialog materialDialog,
+                                                CharSequence charSequence) {
+                                try {
+                                    if (Integer.parseInt(charSequence.toString()) >= 0) {
+                                        materialDialog.getActionButton(DialogAction.POSITIVE).setEnabled(true);
+                                    } else {
+                                        throw new NumberFormatException();
+                                    }
+                                } catch (NumberFormatException e) {
+                                    Toast.makeText(ScrollingActivity.this, R.string.hide_delay_invalid, Toast.LENGTH_SHORT).show();
+                                    materialDialog.getActionButton(DialogAction.POSITIVE).setEnabled(false);
+                                }
+                            }
+                        })
+                .alwaysCallInputCallback()
+                .onPositive(new MaterialDialog.SingleButtonCallback() {
+                    @Override
+                    public void onClick(@NonNull MaterialDialog materialDialog,
+                                        @NonNull DialogAction dialogAction) {
+                        int input = Integer.parseInt(
+                                materialDialog.getInputEditText().getText().toString());
+                        mRecyclerFastScroller.setHideDelay(input);
+                    }
+                })
+                .show();
     }
 
     private class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ViewHolder> {
+
+        private final int[] customizationNames = {
+                R.string.hiding_enabled,
+                R.string.handle_normal_color,
+                R.string.handle_pressed_color,
+                R.string.scrollbar_color,
+                R.string.hide_delay,
+                R.string.touch_target_width
+        };
 
         private final Class[] demoClasses = {
                 /*CoordinatorScrollingActivity.class*/
@@ -184,8 +188,14 @@ public class ScrollingActivity extends AppCompatActivity implements ColorChooser
 
         @Override
         public void onBindViewHolder(ViewHolder holder, int position) {
-            if (demoClasses.length > position) {
-                holder.button.setText(getString(demoNames[position]));
+            if (customizationNames.length > position) {
+                if (position == 0) {
+                    setHidingButtonText(holder.button);
+                } else {
+                    holder.button.setText(customizationNames[position]);
+                }
+            } else if (demoClasses.length + customizationNames.length > position) {
+                holder.button.setText(demoNames[position - customizationNames.length]);
             } else {
                 holder.button.setText("Button #" + (position + 1));
             }
@@ -194,6 +204,14 @@ public class ScrollingActivity extends AppCompatActivity implements ColorChooser
         @Override
         public int getItemCount() {
             return 50;
+        }
+
+        private void setHidingButtonText(Button button) {
+            if (mRecyclerFastScroller.isHidingEnabled()) {
+                button.setText(R.string.hiding_enabled);
+            } else {
+                button.setText(R.string.hiding_disabled);
+            }
         }
 
         class ViewHolder extends RecyclerView.ViewHolder {
@@ -208,8 +226,27 @@ public class ScrollingActivity extends AppCompatActivity implements ColorChooser
                     @Override
                     public void onClick(View v) {
                         int position = getAdapterPosition();
-                        if (demoClasses.length > position) {
-                            Intent i = new Intent(ScrollingActivity.this, demoClasses[position]);
+                        if (customizationNames.length > position) {
+                            switch (position) {
+                                case 0:
+                                    final boolean hidingEnabled = !mRecyclerFastScroller.isHidingEnabled();
+                                    mRecyclerFastScroller.setHidingEnabled(hidingEnabled);
+                                    setHidingButtonText(button);
+                                    break;
+                                case 1:
+                                case 2:
+                                case 3:
+                                    customizeColors(customizationNames[position]);
+                                    break;
+                                case 4:
+                                    customizeHideDelay();
+                                    break;
+                                case 5:
+                                    customizeTouchTargetWidth();
+                                    break;
+                            }
+                        } else if (demoClasses.length + customizationNames.length > position) {
+                            Intent i = new Intent(ScrollingActivity.this, demoClasses[position - customizationNames.length]);
                             startActivity(i);
                         } else {
                             Snackbar.make(v, "You're at " + button.getText(), Snackbar.LENGTH_SHORT)
