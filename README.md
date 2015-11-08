@@ -19,12 +19,12 @@ repositories {
 
 dependencies {
   // ...
-  compile 'com.github.plusCubed:recycler-fast-scroll:{latest-version}'
+  compile 'com.pluscubed:recycler-fast-scroll:{latest-version}'
 }
 ```
 The library is versioned according to [Semantic Versioning](http://semver.org/).
 
-### Usage
+### Basic Usage
 1. Add the widget to your layout file, e.g.:
     ```xml
     <FrameLayout
@@ -50,14 +50,18 @@ The library is versioned according to [Semantic Versioning](http://semver.org/).
 
 See the sample project for complete demos.
 
-### Customization & Methods
+### Customization
 | Method | Attribute | Description |
 | --- | --- | --- |
 | `setBarColor(int color)`| `rfs_barColor` | Color of scrollbar. Defaults to `colorControlNormal` attribute. Alpha of ~22% is applied to the drawable to match stock `ListView` fast scroller. |
 | `setHandleNormalColor(int color)` | `rfs_handleNormalColor` | Color of handle. Defaults to `colorControlNormal` attribute. |
 | `setHandlePressedColor(int color)` | `rfs_handlePressedColor` | Color of pressed handle. Defaults to `colorAccent` attribute. |
 | `setTouchTargetWidth(int width)` | `rfs_touchTargetWidth` | Width of the touch target. Defaults to 24dp (while the Android docs recommend at least 48dp, 24dp is more practical considering it will block touch in the right of the `RecyclerView`). |
-|`setOnHandleTouchListener(OnTouchListener listener)`| -- | Sets listener for handle touch events. |
+| `setHideDelay(int milliseconds)` | `rfs_hideDelay` | Hide delay in milliseconds. Defaults to 1500ms. |
+| `setHidingEnabled(boolean enabled)` | `rfs_hidingEnabled` | Whether scrollbar is hidden after delay. Defaults to true. |
+| `setOnHandleTouchListener(OnTouchListener listener)` | -- | Sets listener for handle touch events. |
+
+Corresponding getters are also available.
 
 ####Attribute Usage
 ```xml
