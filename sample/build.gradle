@@ -44,9 +44,10 @@ repositories {
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
     testCompile 'junit:junit:4.12'
-    compile 'com.android.support:appcompat-v7:23.1.0'
-    compile 'com.android.support:design:23.1.0'
-    compile 'com.afollestad.material-dialogs:core:0.8.5.0'
-    compile 'com.afollestad.material-dialogs:commons:0.8.5.0'
+    compile 'com.android.support:appcompat-v7:23.1.1'
+    compile 'com.android.support:design:23.1.1'
+    compile 'com.afollestad.material-dialogs:core:0.8.5.1'
+    compile 'com.afollestad.material-dialogs:commons:0.8.5.1'
     compile project(':library')
+    //compile 'com.pluscubed:recycler-fast-scroll:0.2.1'
 }
