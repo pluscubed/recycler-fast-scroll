@@ -10,18 +10,30 @@ You can download the sample APK from the [releases page](https://github.com/plus
 
 ### Dependency
 [![Release](https://img.shields.io/github/release/plusCubed/recycler-fast-scroll.svg?label=JitPack)](https://jitpack.io/#com.pluscubed/recycler-fast-scroll)  
-Add the jitpack.io repo and this library to `build.gradle`:
-```Gradle
-repositories {
-  // ...
-  maven { url "https://jitpack.io" }
-}
+#### Repository
 
-dependencies {
-  // ...
-  compile 'com.pluscubed:recycler-fast-scroll:{latest-version}'
+Add this in your root `build.gradle` file (**not** your module `build.gradle` file):
+
+```gradle
+allprojects {
+	repositories {
+		...
+		maven { url "https://jitpack.io" }
+	}
 }
 ```
+
+#### Dependency
+
+Add this to your module's `build.gradle` file:
+
+```gradle
+dependencies {
+	...
+	compile 'com.github.pluscubed:recycler-fast-scroll:{latest-version}@aar'
+}
+```
+
 The library is versioned according to [Semantic Versioning](http://semver.org/).
 
 ### Basic Usage
