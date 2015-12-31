@@ -8,8 +8,8 @@ android {
         applicationId "com.pluscubed.recyclerfastscrollsample"
         minSdkVersion 14
         targetSdkVersion 23
-        versionCode 3
-        versionName "0.2.1"
+        versionCode 4
+        versionName "0.3.0.0"
     }
 
     if (project.hasProperty("RELEASE_STORE_FILE")) {
