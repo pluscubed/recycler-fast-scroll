@@ -57,10 +57,13 @@ The library is versioned according to [Semantic Versioning](http://semver.org/).
     
 2. Attach the `RecyclerFastScroller` to your `RecyclerView`:
     ```java
-    fastScroller.setRecyclerView(recyclerView);
+    fastScroller.attachRecyclerView(recyclerView);
     ```
 
-See the sample project for complete demos.
+See the sample project for demos.
+
+### AppBarLayout support
+Use `attachAppBarLayout(coordinatorLayout, appBarLayout)`. See the sample project for the demo.
 
 ### Customization
 | Method | Attribute | Description |
