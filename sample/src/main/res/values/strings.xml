@@ -15,5 +15,24 @@
     <string name="appbarlayout">AppBarLayout</string>
     <string name="item_number">Item #%d</string>
     <string name="item_pressed_snackbar">You\'re at %s</string>
+    <string name="about">About</string>
+
+    <string name="about_dialog_title">Sample v%s</string>
+    <string name="dismiss">Dismiss</string>
+
+    <string name="about_body"><![CDATA[
+        <b>Recycler Fast Scroll</b> is a widget for RecyclerView fast scrolling, like Android\'s built-in fast scroll option for ListView.
+        <br/><br/>
+
+        Developed by <b>Daniel Ciao</b><br/>
+
+        <a href=\'http://pluscubed.com\'>Website</a>&nbsp;&nbsp;
+        <a href=\'https://twitter.com/plusCubed\'>Twitter</a>&nbsp;&nbsp;
+        <a href=\'https://google.com/+DanielCiao\'>Google+</a>&nbsp;&nbsp;
+        <a href=\'https://github.com/pluscubed\'>GitHub</a>&nbsp;&nbsp;
+        <a href=\'https://www.linkedin.com/in/dciao\'>LinkedIn</a><br/><br/>
+
+        <a href=\'https://github.com/pluscubed/recycler-fast-scroll\'>GitHub</a> - source, issues, feature requests<br/><br/>
+    ]]></string>
 
 </resources>

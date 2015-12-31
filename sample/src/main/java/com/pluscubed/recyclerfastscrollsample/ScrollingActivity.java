@@ -9,9 +9,11 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.text.Html;
 import android.text.InputType;
 import android.view.LayoutInflater;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -70,6 +72,15 @@ public class ScrollingActivity extends AppCompatActivity implements ColorChooser
     }
 
     @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == R.id.menu_about) {
+            showAboutDialog();
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    @Override
     public void onColorSelection(@NonNull ColorChooserDialog colorChooserDialog, int color) {
         switch (colorChooserDialog.getTitle()) {
             case R.string.handle_normal_color:
@@ -82,6 +93,15 @@ public class ScrollingActivity extends AppCompatActivity implements ColorChooser
                 mRecyclerFastScroller.setBarColor(color);
                 break;
         }
+    }
+
+    public void showAboutDialog() {
+        new MaterialDialog.Builder(this)
+                .title(getString(R.string.about_dialog_title, BuildConfig.VERSION_NAME))
+                .positiveText(R.string.dismiss)
+                .content(Html.fromHtml(getString(R.string.about_body)))
+                .iconRes(R.mipmap.ic_launcher)
+                .show();
     }
 
 

@@ -1,5 +1,10 @@
-<menu xmlns:tools="http://schemas.android.com/tools"
-    tools:context=".ScrollingActivity">
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
+    <item
+        android:id="@+id/menu_about"
+        android:icon="@drawable/ic_info_black_24dp"
+        android:title="@string/about"
+        app:showAsAction="always" />
 
 </menu>
