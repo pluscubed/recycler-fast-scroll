@@ -263,6 +263,9 @@ public class RecyclerFastScroller extends FrameLayout {
      */
     public void setHidingEnabled(boolean hidingEnabled) {
         mHidingEnabled = hidingEnabled;
+        if (hidingEnabled) {
+            postAutoHide();
+        }
     }
 
     private void updateHandleColorsAndInset() {
@@ -306,7 +309,7 @@ public class RecyclerFastScroller extends FrameLayout {
         mAppBarLayout.addOnOffsetChangedListener(new AppBarLayout.OnOffsetChangedListener() {
             @Override
             public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {
-                onScrolled();
+                show(true);
 
                 MarginLayoutParams layoutParams = (MarginLayoutParams) getLayoutParams();
                 layoutParams.topMargin = mAppBarLayout.getHeight() + verticalOffset; //AppBarLayout actual height
@@ -327,33 +330,42 @@ public class RecyclerFastScroller extends FrameLayout {
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
-                RecyclerFastScroller.this.onScrolled();
+                RecyclerFastScroller.this.show(true);
             }
         });
     }
 
-    void onScrolled() {
+    /**
+     * Show the fast scroller and hide after delay
+     *
+     * @param animate whether to animate showing the scroller
+     */
+    public void show(boolean animate) {
         requestLayout();
 
         mHandle.setEnabled(true);
-        if (!mAnimatingIn && getTranslationX() != 0) {
-            if (mAnimator != null && mAnimator.isStarted()) {
-                mAnimator.cancel();
-            }
-            mAnimator = new AnimatorSet();
-            ObjectAnimator animator = ObjectAnimator.ofFloat(RecyclerFastScroller.this, View.TRANSLATION_X, 0);
-            animator.setInterpolator(new LinearOutSlowInInterpolator());
-            animator.setDuration(100);
-            animator.addListener(new AnimatorListenerAdapter() {
-                @Override
-                public void onAnimationEnd(Animator animation) {
-                    super.onAnimationEnd(animation);
-                    mAnimatingIn = false;
+        if (animate) {
+            if (!mAnimatingIn && getTranslationX() != 0) {
+                if (mAnimator != null && mAnimator.isStarted()) {
+                    mAnimator.cancel();
                 }
-            });
-            mAnimatingIn = true;
-            mAnimator.play(animator);
-            mAnimator.start();
+                mAnimator = new AnimatorSet();
+                ObjectAnimator animator = ObjectAnimator.ofFloat(RecyclerFastScroller.this, View.TRANSLATION_X, 0);
+                animator.setInterpolator(new LinearOutSlowInInterpolator());
+                animator.setDuration(100);
+                animator.addListener(new AnimatorListenerAdapter() {
+                    @Override
+                    public void onAnimationEnd(Animator animation) {
+                        super.onAnimationEnd(animation);
+                        mAnimatingIn = false;
+                    }
+                });
+                mAnimatingIn = true;
+                mAnimator.play(animator);
+                mAnimator.start();
+            }
+        } else {
+            setTranslationX(0);
         }
         postAutoHide();
     }

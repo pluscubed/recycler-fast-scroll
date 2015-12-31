@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest
-    package="com.pluscubed.recyclerfastscrollsample"
-    xmlns:android="http://schemas.android.com/apk/res/android">
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.pluscubed.recyclerfastscrollsample">
 
     <application
         android:allowBackup="true"
@@ -17,7 +16,9 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".CoordinatorScrollingActivity" />
+        <activity
+            android:name=".CoordinatorScrollingActivity"
+            android:label="@string/appbarlayout" />
     </application>
 
 </manifest>

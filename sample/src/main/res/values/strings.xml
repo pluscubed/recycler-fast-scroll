@@ -12,5 +12,8 @@
     <string name="hide_delay_invalid">Number must be greater than or equal to 0</string>
     <string name="hiding_enabled">Disable Hiding</string>
     <string name="hiding_disabled">Enable Hiding</string>
+    <string name="appbarlayout">AppBarLayout</string>
+    <string name="item_number">Item #%d</string>
+    <string name="item_pressed_snackbar">You\'re at %s</string>
 
 </resources>

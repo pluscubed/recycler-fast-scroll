@@ -30,11 +30,13 @@ public class CoordinatorScrollingActivity extends AppCompatActivity {
         view.setAdapter(new ItemAdapter());
         view.setLayoutManager(new LinearLayoutManager(this));
 
-        RecyclerFastScroller scroller = (RecyclerFastScroller) findViewById(R.id.fastScroller);
+        RecyclerFastScroller scroller = (RecyclerFastScroller) findViewById(R.id.fast_scroller);
         scroller.attachRecyclerView(view);
         CoordinatorLayout coordinatorLayout = (CoordinatorLayout) findViewById(R.id.coordinator);
         AppBarLayout appBarLayout = (AppBarLayout) findViewById(R.id.app_bar);
         scroller.attachAppBarLayout(coordinatorLayout, appBarLayout);
+
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
 
     @Override
@@ -47,6 +49,9 @@ public class CoordinatorScrollingActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
+        if (id == android.R.id.home) {
+            finish();
+        }
         return super.onOptionsItemSelected(item);
     }
 
@@ -62,7 +67,7 @@ public class CoordinatorScrollingActivity extends AppCompatActivity {
 
         @Override
         public void onBindViewHolder(ViewHolder holder, int position) {
-            holder.textView.setText("Item #" + (position + 1));
+            holder.textView.setText(String.format(getString(R.string.item_number), position + 1));
         }
 
         @Override
@@ -81,7 +86,7 @@ public class CoordinatorScrollingActivity extends AppCompatActivity {
                 itemView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        Snackbar.make(v, "You're at " + textView.getText(), Snackbar.LENGTH_SHORT)
+                        Snackbar.make(v, String.format(getString(R.string.item_pressed_snackbar), textView.getText()), Snackbar.LENGTH_SHORT)
                                 .show();
                     }
                 });

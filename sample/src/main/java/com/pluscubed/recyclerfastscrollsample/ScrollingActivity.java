@@ -25,6 +25,22 @@ import com.pluscubed.recyclerfastscroll.RecyclerFastScrollerUtils;
 
 public class ScrollingActivity extends AppCompatActivity implements ColorChooserDialog.ColorCallback {
 
+    static final int[] CUSTOMIZATION_NAMES = {
+            R.string.hiding_enabled,
+            R.string.handle_normal_color,
+            R.string.handle_pressed_color,
+            R.string.scrollbar_color,
+            R.string.hide_delay,
+            R.string.touch_target_width
+    };
+
+    static final Class[] DEMO_ACTIVITIES = {
+            CoordinatorScrollingActivity.class
+    };
+    static final int[] DEMO_NAMES = {
+            R.string.coordinator_layout
+    };
+
     RecyclerFastScroller mRecyclerFastScroller;
 
     public static int convertPxToDp(Context context, float px) {
@@ -42,7 +58,7 @@ public class ScrollingActivity extends AppCompatActivity implements ColorChooser
         view.setAdapter(new ItemAdapter());
         view.setLayoutManager(new LinearLayoutManager(this));
 
-        mRecyclerFastScroller = (RecyclerFastScroller) findViewById(R.id.fastScroller);
+        mRecyclerFastScroller = (RecyclerFastScroller) findViewById(R.id.fast_scroller);
         mRecyclerFastScroller.attachRecyclerView(view);
     }
 
@@ -69,7 +85,7 @@ public class ScrollingActivity extends AppCompatActivity implements ColorChooser
     }
 
 
-    private void customizeColors(int title) {
+    void customizeColors(int title) {
         int colorChooserDialogTitle = 0;
         int preselectColor = 0;
         switch (title) {
@@ -92,7 +108,7 @@ public class ScrollingActivity extends AppCompatActivity implements ColorChooser
                 .show();
     }
 
-    private void customizeTouchTargetWidth() {
+    void customizeTouchTargetWidth() {
         new MaterialDialog.Builder(this)
                 .title(R.string.touch_target_width)
                 .positiveText(android.R.string.ok)
@@ -126,7 +142,7 @@ public class ScrollingActivity extends AppCompatActivity implements ColorChooser
                 .show();
     }
 
-    private void customizeHideDelay() {
+    void customizeHideDelay() {
         new MaterialDialog.Builder(this)
                 .title(R.string.hide_delay)
                 .positiveText(android.R.string.ok)
@@ -164,22 +180,6 @@ public class ScrollingActivity extends AppCompatActivity implements ColorChooser
 
     private class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ViewHolder> {
 
-        private final int[] customizationNames = {
-                R.string.hiding_enabled,
-                R.string.handle_normal_color,
-                R.string.handle_pressed_color,
-                R.string.scrollbar_color,
-                R.string.hide_delay,
-                R.string.touch_target_width
-        };
-
-        private final Class[] demoClasses = {
-                CoordinatorScrollingActivity.class
-        };
-        private final int[] demoNames = {
-                R.string.coordinator_layout
-        };
-
         ItemAdapter() {
         }
 
@@ -191,16 +191,16 @@ public class ScrollingActivity extends AppCompatActivity implements ColorChooser
 
         @Override
         public void onBindViewHolder(ViewHolder holder, int position) {
-            if (customizationNames.length > position) {
+            if (CUSTOMIZATION_NAMES.length > position) {
                 if (position == 0) {
                     setHidingButtonText(holder.button);
                 } else {
-                    holder.button.setText(customizationNames[position]);
+                    holder.button.setText(CUSTOMIZATION_NAMES[position]);
                 }
-            } else if (demoClasses.length + customizationNames.length > position) {
-                holder.button.setText(demoNames[position - customizationNames.length]);
+            } else if (DEMO_ACTIVITIES.length + CUSTOMIZATION_NAMES.length > position) {
+                holder.button.setText(DEMO_NAMES[position - CUSTOMIZATION_NAMES.length]);
             } else {
-                holder.button.setText("Button #" + (position + 1));
+                holder.button.setText(String.format(getString(R.string.item_number), position + 1));
             }
         }
 
@@ -209,7 +209,7 @@ public class ScrollingActivity extends AppCompatActivity implements ColorChooser
             return 50;
         }
 
-        private void setHidingButtonText(Button button) {
+        void setHidingButtonText(Button button) {
             if (mRecyclerFastScroller.isHidingEnabled()) {
                 button.setText(R.string.hiding_enabled);
             } else {
@@ -229,17 +229,20 @@ public class ScrollingActivity extends AppCompatActivity implements ColorChooser
                     @Override
                     public void onClick(View v) {
                         int position = getAdapterPosition();
-                        if (customizationNames.length > position) {
+                        if (CUSTOMIZATION_NAMES.length > position) {
                             switch (position) {
                                 case 0:
                                     final boolean hidingEnabled = !mRecyclerFastScroller.isHidingEnabled();
                                     mRecyclerFastScroller.setHidingEnabled(hidingEnabled);
                                     setHidingButtonText(button);
+                                    if (!hidingEnabled) {
+                                        mRecyclerFastScroller.show(false);
+                                    }
                                     break;
                                 case 1:
                                 case 2:
                                 case 3:
-                                    customizeColors(customizationNames[position]);
+                                    customizeColors(CUSTOMIZATION_NAMES[position]);
                                     break;
                                 case 4:
                                     customizeHideDelay();
@@ -248,11 +251,11 @@ public class ScrollingActivity extends AppCompatActivity implements ColorChooser
                                     customizeTouchTargetWidth();
                                     break;
                             }
-                        } else if (demoClasses.length + customizationNames.length > position) {
-                            Intent i = new Intent(ScrollingActivity.this, demoClasses[position - customizationNames.length]);
+                        } else if (DEMO_ACTIVITIES.length + CUSTOMIZATION_NAMES.length > position) {
+                            Intent i = new Intent(ScrollingActivity.this, DEMO_ACTIVITIES[position - CUSTOMIZATION_NAMES.length]);
                             startActivity(i);
                         } else {
-                            Snackbar.make(v, "You're at " + button.getText(), Snackbar.LENGTH_SHORT)
+                            Snackbar.make(v, String.format(getString(R.string.item_pressed_snackbar), button.getText()), Snackbar.LENGTH_SHORT)
                                     .show();
                         }
                     }

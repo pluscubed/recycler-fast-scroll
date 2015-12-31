@@ -44,7 +44,7 @@
         tools:showIn="@layout/activity_coordinator_scrolling" />
 
     <com.pluscubed.recyclerfastscroll.RecyclerFastScroller
-        android:id="@+id/fastScroller"
+        android:id="@+id/fast_scroller"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_gravity="end" />
