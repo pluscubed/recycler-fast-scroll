@@ -1,6 +1,8 @@
 package com.pluscubed.recyclerfastscrollsample;
 
 import android.os.Bundle;
+import android.support.design.widget.AppBarLayout;
+import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -29,7 +31,10 @@ public class CoordinatorScrollingActivity extends AppCompatActivity {
         view.setLayoutManager(new LinearLayoutManager(this));
 
         RecyclerFastScroller scroller = (RecyclerFastScroller) findViewById(R.id.fastScroller);
-        scroller.setRecyclerView(view);
+        scroller.attachRecyclerView(view);
+        CoordinatorLayout coordinatorLayout = (CoordinatorLayout) findViewById(R.id.coordinator);
+        AppBarLayout appBarLayout = (AppBarLayout) findViewById(R.id.app_bar);
+        scroller.attachAppBarLayout(coordinatorLayout, appBarLayout);
     }
 
     @Override
@@ -46,6 +51,9 @@ public class CoordinatorScrollingActivity extends AppCompatActivity {
     }
 
     private class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ViewHolder> {
+        ItemAdapter() {
+        }
+
         @Override
         public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
             View view = LayoutInflater.from(CoordinatorScrollingActivity.this).inflate(R.layout.list_item, parent, false);
@@ -59,7 +67,7 @@ public class CoordinatorScrollingActivity extends AppCompatActivity {
 
         @Override
         public int getItemCount() {
-            return 1000;
+            return 40;
         }
 
         class ViewHolder extends RecyclerView.ViewHolder {

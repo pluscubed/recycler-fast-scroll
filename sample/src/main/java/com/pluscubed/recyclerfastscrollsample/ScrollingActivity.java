@@ -25,7 +25,7 @@ import com.pluscubed.recyclerfastscroll.RecyclerFastScrollerUtils;
 
 public class ScrollingActivity extends AppCompatActivity implements ColorChooserDialog.ColorCallback {
 
-    private RecyclerFastScroller mRecyclerFastScroller;
+    RecyclerFastScroller mRecyclerFastScroller;
 
     public static int convertPxToDp(Context context, float px) {
         return (int) (px / context.getResources().getDisplayMetrics().density + 0.5f);
@@ -43,7 +43,7 @@ public class ScrollingActivity extends AppCompatActivity implements ColorChooser
         view.setLayoutManager(new LinearLayoutManager(this));
 
         mRecyclerFastScroller = (RecyclerFastScroller) findViewById(R.id.fastScroller);
-        mRecyclerFastScroller.setRecyclerView(view);
+        mRecyclerFastScroller.attachRecyclerView(view);
     }
 
     @Override
@@ -174,11 +174,14 @@ public class ScrollingActivity extends AppCompatActivity implements ColorChooser
         };
 
         private final Class[] demoClasses = {
-                /*CoordinatorScrollingActivity.class*/
+                CoordinatorScrollingActivity.class
         };
         private final int[] demoNames = {
                 R.string.coordinator_layout
         };
+
+        ItemAdapter() {
+        }
 
         @Override
         public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {

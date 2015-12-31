@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">RecyclerFastScroll Sample</string>
 
-    <string name="coordinator_layout">Coordinator Layout Demo</string>
+    <string name="coordinator_layout">AppBarLayout Demo</string>
 
     <string name="handle_normal_color">Customize Handle Normal Color</string>
     <string name="handle_pressed_color">Customize Handle Pressed Color</string>
