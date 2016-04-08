@@ -22,6 +22,7 @@ import android.widget.Toast;
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.afollestad.materialdialogs.color.ColorChooserDialog;
+import com.pluscubed.recyclerfastscroll.BuildConfig;
 import com.pluscubed.recyclerfastscroll.RecyclerFastScroller;
 import com.pluscubed.recyclerfastscroll.RecyclerFastScrollerUtils;
 
@@ -226,7 +227,7 @@ public class ScrollingActivity extends AppCompatActivity implements ColorChooser
 
         @Override
         public int getItemCount() {
-            return 50;
+            return 10000;
         }
 
         void setHidingButtonText(Button button) {
