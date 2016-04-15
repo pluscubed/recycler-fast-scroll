@@ -143,7 +143,6 @@ public class RecyclerFastScroller extends FrameLayout {
 
                     int nestedScrollAxis = ViewCompat.SCROLL_AXIS_NONE;
                     nestedScrollAxis |= ViewCompat.SCROLL_AXIS_VERTICAL;
-                    /*nestedScrollAxis |= ViewCompat.SCROLL_AXIS_HORIZONTAL;*/
 
                     mRecyclerView.startNestedScroll(nestedScrollAxis);
 
@@ -337,6 +336,14 @@ public class RecyclerFastScroller extends FrameLayout {
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
                 RecyclerFastScroller.this.show(true);
+            }
+        });
+
+        mRecyclerView.getAdapter().registerAdapterDataObserver(new RecyclerView.AdapterDataObserver() {
+            @Override
+            public void onChanged() {
+                super.onChanged();
+                requestLayout();
             }
         });
     }
