@@ -414,6 +414,8 @@ public class RecyclerFastScroller extends FrameLayout {
             return;
         }
 
+        mHideOverride = false;
+
         float y = ratio * (barHeight - calculatedHandleHeight);
 
         mHandle.layout(mHandle.getLeft(), (int) y, mHandle.getRight(), (int) y + calculatedHandleHeight);
