@@ -2,9 +2,9 @@
 
 ![Art](./art/small.gif)
 
-Widget for `RecyclerView` fast scrolling, like Android's built-in fast scroll option for `ListView`.
+Widget for `RecyclerView` fast scrolling, like Android's built-in fast scroll option for `ListView`.  
+Supports any vertically scrolling `LayoutManager`, as well as proper integration for `AppBarLayout`. 
 
-Currently only supports verically-scrolling `LayoutManager`s.  
 Planned features are listed at the [issues page](https://github.com/plusCubed/recycler-fast-scroll/issues).  
 You can download the sample APK from the [releases page](https://github.com/plusCubed/recycler-fast-scroll/releases).
 
@@ -88,7 +88,7 @@ Corresponding getters are also available.
 
 ### License
 ```
-Copyright 2015 Daniel Ciao
+Copyright 2016 Daniel Ciao
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -102,7 +102,3 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 ```
-
-<br/>
-<br/>
-Mostly rewritten, but originally based off of [danoz73/RecyclerViewFastScroller](https://github.com/danoz73/RecyclerViewFastScroller).
