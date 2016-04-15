@@ -34,12 +34,16 @@ public class RecyclerFastScroller extends FrameLayout {
     private final Runnable mHide;
     private final int mMinScrollHandleHeight;
     protected OnTouchListener mOnTouchListener;
+
     int mAppBarLayoutOffset;
+
     RecyclerView mRecyclerView;
     CoordinatorLayout mCoordinatorLayout;
     AppBarLayout mAppBarLayout;
+
     AnimatorSet mAnimator;
     boolean mAnimatingIn;
+
     private int mHideDelay;
     private boolean mHidingEnabled;
     private int mHandleNormalColor;
@@ -47,6 +51,8 @@ public class RecyclerFastScroller extends FrameLayout {
     private int mBarColor;
     private int mTouchTargetWidth;
     private int mBarInset;
+
+    private boolean mHideOverride;
 
     public RecyclerFastScroller(Context context) {
         this(context, null, 0);
@@ -340,34 +346,43 @@ public class RecyclerFastScroller extends FrameLayout {
      *
      * @param animate whether to animate showing the scroller
      */
-    public void show(boolean animate) {
+    public void show(final boolean animate) {
         requestLayout();
 
-        mHandle.setEnabled(true);
-        if (animate) {
-            if (!mAnimatingIn && getTranslationX() != 0) {
-                if (mAnimator != null && mAnimator.isStarted()) {
-                    mAnimator.cancel();
+        post(new Runnable() {
+            @Override
+            public void run() {
+                if (mHideOverride) {
+                    return;
                 }
-                mAnimator = new AnimatorSet();
-                ObjectAnimator animator = ObjectAnimator.ofFloat(RecyclerFastScroller.this, View.TRANSLATION_X, 0);
-                animator.setInterpolator(new LinearOutSlowInInterpolator());
-                animator.setDuration(100);
-                animator.addListener(new AnimatorListenerAdapter() {
-                    @Override
-                    public void onAnimationEnd(Animator animation) {
-                        super.onAnimationEnd(animation);
-                        mAnimatingIn = false;
+
+                mHandle.setEnabled(true);
+                if (animate) {
+                    if (!mAnimatingIn && getTranslationX() != 0) {
+                        if (mAnimator != null && mAnimator.isStarted()) {
+                            mAnimator.cancel();
+                        }
+                        mAnimator = new AnimatorSet();
+                        ObjectAnimator animator = ObjectAnimator.ofFloat(RecyclerFastScroller.this, View.TRANSLATION_X, 0);
+                        animator.setInterpolator(new LinearOutSlowInInterpolator());
+                        animator.setDuration(100);
+                        animator.addListener(new AnimatorListenerAdapter() {
+                            @Override
+                            public void onAnimationEnd(Animator animation) {
+                                super.onAnimationEnd(animation);
+                                mAnimatingIn = false;
+                            }
+                        });
+                        mAnimatingIn = true;
+                        mAnimator.play(animator);
+                        mAnimator.start();
                     }
-                });
-                mAnimatingIn = true;
-                mAnimator.play(animator);
-                mAnimator.start();
+                } else {
+                    setTranslationX(0);
+                }
+                postAutoHide();
             }
-        } else {
-            setTranslationX(0);
-        }
-        postAutoHide();
+        });
     }
 
     void postAutoHide() {
@@ -395,6 +410,7 @@ public class RecyclerFastScroller extends FrameLayout {
 
         if (calculatedHandleHeight >= barHeight) {
             setTranslationX(mHiddenTranslationX);
+            mHideOverride = true;
             return;
         }
 

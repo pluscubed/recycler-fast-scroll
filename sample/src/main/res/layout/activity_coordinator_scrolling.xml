@@ -12,6 +12,7 @@
         android:id="@+id/app_bar"
         android:layout_width="match_parent"
         android:layout_height="@dimen/app_bar_height"
+        android:fitsSystemWindows="true"
         android:theme="@style/AppTheme.AppBarOverlay">
 
         <android.support.design.widget.CollapsingToolbarLayout
@@ -47,7 +48,8 @@
         android:id="@+id/fast_scroller"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
-        android:layout_gravity="end" />
+        android:layout_gravity="end"
+        android:fitsSystemWindows="true" />
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/fab"

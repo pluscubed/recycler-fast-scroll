@@ -227,7 +227,7 @@ public class ScrollingActivity extends AppCompatActivity implements ColorChooser
 
         @Override
         public int getItemCount() {
-            return 10000;
+            return 1000;
         }
 
         void setHidingButtonText(Button button) {
