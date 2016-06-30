@@ -324,6 +324,7 @@ public class RecyclerFastScroller extends FrameLayout {
     }
 
     public void attachAdapter(@Nullable RecyclerView.Adapter adapter) {
+        if (mAdapter == adapter) return;
         if (mAdapter != null) {
             mAdapter.unregisterAdapterDataObserver(mAdapterObserver);
         }
