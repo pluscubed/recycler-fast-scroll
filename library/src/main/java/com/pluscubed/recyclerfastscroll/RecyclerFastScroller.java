@@ -11,6 +11,7 @@ import android.graphics.drawable.Drawable;
 import android.graphics.drawable.InsetDrawable;
 import android.graphics.drawable.StateListDrawable;
 import android.support.annotation.ColorInt;
+import android.support.annotation.Nullable;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.v4.view.GravityCompat;
@@ -53,6 +54,14 @@ public class RecyclerFastScroller extends FrameLayout {
     private int mBarInset;
 
     private boolean mHideOverride;
+    private RecyclerView.Adapter mAdapter;
+    private RecyclerView.AdapterDataObserver mAdapterObserver = new RecyclerView.AdapterDataObserver() {
+        @Override
+        public void onChanged() {
+            super.onChanged();
+            requestLayout();
+        }
+    };
 
     public RecyclerFastScroller(Context context) {
         this(context, null, 0);
@@ -304,7 +313,25 @@ public class RecyclerFastScroller extends FrameLayout {
 
     public void attachRecyclerView(RecyclerView recyclerView) {
         mRecyclerView = recyclerView;
-        initRecyclerViewOnScrollListener();
+        mRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+                RecyclerFastScroller.this.show(true);
+            }
+        });
+        if (recyclerView.getAdapter() != null) attachAdapter(recyclerView.getAdapter());
+    }
+
+    public void attachAdapter(@Nullable RecyclerView.Adapter adapter) {
+        if (mAdapter == adapter) return;
+        if (mAdapter != null) {
+            mAdapter.unregisterAdapterDataObserver(mAdapterObserver);
+        }
+        if (adapter != null) {
+            adapter.registerAdapterDataObserver(mAdapterObserver);
+        }
+        mAdapter = adapter;
     }
 
     public void attachAppBarLayout(CoordinatorLayout coordinatorLayout, AppBarLayout appBarLayout) {
@@ -328,24 +355,6 @@ public class RecyclerFastScroller extends FrameLayout {
 
     public void setOnHandleTouchListener(OnTouchListener listener) {
         mOnTouchListener = listener;
-    }
-
-    private void initRecyclerViewOnScrollListener() {
-        mRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
-            @Override
-            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
-                super.onScrolled(recyclerView, dx, dy);
-                RecyclerFastScroller.this.show(true);
-            }
-        });
-
-        mRecyclerView.getAdapter().registerAdapterDataObserver(new RecyclerView.AdapterDataObserver() {
-            @Override
-            public void onChanged() {
-                super.onChanged();
-                requestLayout();
-            }
-        });
     }
 
     /**
@@ -402,6 +411,7 @@ public class RecyclerFastScroller extends FrameLayout {
     @Override
     protected void onLayout(boolean changed, int left, int top, int right, int bottom) {
         super.onLayout(changed, left, top, right, bottom);
+        if (mRecyclerView == null) return;
 
         int scrollOffset = mRecyclerView.computeVerticalScrollOffset() + mAppBarLayoutOffset;
         int verticalScrollRange = mRecyclerView.computeVerticalScrollRange() + (mAppBarLayout == null ? 0 : mAppBarLayout.getTotalScrollRange())
