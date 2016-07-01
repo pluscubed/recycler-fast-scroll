@@ -1,6 +1,9 @@
-# Recycler Fast Scroll
+Recycler Fast Scroll ![Icon](./sample/src/main/res/mipmap-mdpi/ic_launcher.png) 
+=====
 
 ![Art](./art/small.gif)
+
+[![Release](https://jitpack.io/v/com.github.pluscubed/recycler-fast-scroll.svg)](https://jitpack.io/#com.pluscubed/insets-dispatcher)  [![License](https://img.shields.io/github/license/pluscubed/recycler-fast-scroll.svg)](https://www.apache.org/licenses/LICENSE-2.0.html)
 
 Widget for `RecyclerView` fast scrolling, like Android's built-in fast scroll option for `ListView`.  
 Supports any vertically scrolling `LayoutManager`, as well as proper integration for `AppBarLayout`. 
@@ -9,27 +12,17 @@ Planned features are listed at the [issues page](https://github.com/plusCubed/re
 You can download the sample APK from the [releases page](https://github.com/plusCubed/recycler-fast-scroll/releases).
 
 ### Dependency
-[![Release](https://img.shields.io/github/release/plusCubed/recycler-fast-scroll.svg?label=JitPack)](https://jitpack.io/#com.pluscubed/recycler-fast-scroll)  
-#### Repository
-
-Add this in your root `build.gradle` file (**not** your module `build.gradle` file):
-
-```gradle
-allprojects {
-	repositories {
-		...
-		maven { url "https://jitpack.io" }
-	}
-}
-```
-
-#### Dependency
 
 Add this to your module's `build.gradle` file:
 
 ```gradle
+repositories {
+	//...
+	maven { url "https://jitpack.io" }
+}
+	
 dependencies {
-	...
+	//...
 	compile 'com.github.pluscubed:recycler-fast-scroll:{latest-version}@aar'
 }
 ```
@@ -59,6 +52,7 @@ The library is versioned according to [Semantic Versioning](http://semver.org/).
     ```java
     fastScroller.attachRecyclerView(recyclerView);
     ```
+    If the adapter hasn't been set when you attach the fast scroller, call `attachAdapter()` afterwords.
 
 See the sample project for demos.
 
