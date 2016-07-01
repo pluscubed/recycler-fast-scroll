@@ -11,6 +11,9 @@ Supports any vertically scrolling `LayoutManager`, as well as proper integration
 Planned features are listed at the [issues page](https://github.com/plusCubed/recycler-fast-scroll/issues).  
 You can download the sample APK from the [releases page](https://github.com/plusCubed/recycler-fast-scroll/releases).
 
+### Sample
+[![Get it on Google Play](http://i.imgur.com/PeDVOwW.png)](https://play.google.com/store/apps/details?id=com.pluscubed.recyclerfastscrollsample)
+
 ### Dependency
 
 Add this to your module's `build.gradle` file:
