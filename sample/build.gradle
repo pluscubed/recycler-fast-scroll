@@ -1,15 +1,15 @@
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion 23
-    buildToolsVersion "23.0.2"
+    compileSdkVersion 24
+    buildToolsVersion "24.0.0"
 
     defaultConfig {
         applicationId "com.pluscubed.recyclerfastscrollsample"
         minSdkVersion 14
-        targetSdkVersion 23
-        versionCode 4
-        versionName "0.3.0.0"
+        targetSdkVersion 24
+        versionCode 1
+        versionName "0.3.2.0"
     }
 
     if (project.hasProperty("RELEASE_STORE_FILE")) {
@@ -44,10 +44,10 @@ repositories {
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
     testCompile 'junit:junit:4.12'
-    compile 'com.android.support:appcompat-v7:23.3.0'
-    compile 'com.android.support:design:23.3.0'
-    compile 'com.github.afollestad.material-dialogs:core:0.8.5.8'
-    compile 'com.github.afollestad.material-dialogs:commons:0.8.5.8'
+    compile 'com.android.support:appcompat-v7:24.0.0'
+    compile 'com.android.support:design:24.0.0'
+    compile 'com.afollestad.material-dialogs:core:0.8.6.1'
+    compile 'com.afollestad.material-dialogs:commons:0.8.6.1'
     compile project(':library')
-    //compile 'com.pluscubed:recycler-fast-scroll:0.2.1'
+    //compile 'com.pluscubed:recycler-fast-scroll:0.3.1'
 }

@@ -63,6 +63,8 @@ public class ScrollingActivity extends AppCompatActivity implements ColorChooser
 
         mRecyclerFastScroller = (RecyclerFastScroller) findViewById(R.id.fast_scroller);
         mRecyclerFastScroller.attachRecyclerView(view);
+
+        setTitle(R.string.title);
     }
 
     @Override
