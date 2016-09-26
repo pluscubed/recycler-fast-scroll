@@ -3,7 +3,7 @@ Recycler Fast Scroll ![Icon](./sample/src/main/res/mipmap-mdpi/ic_launcher.png)
 
 ![Art](./art/small.gif)
 
-[![Release](https://jitpack.io/v/com.github.pluscubed/recycler-fast-scroll.svg)](https://jitpack.io/#com.pluscubed/insets-dispatcher)  [![License](https://img.shields.io/github/license/pluscubed/recycler-fast-scroll.svg)](https://www.apache.org/licenses/LICENSE-2.0.html)
+[![Release](https://jitpack.io/v/plusCubed/recycler-fast-scroll.svg)](https://jitpack.io/#plusCubed/recycler-fast-scroll)  [![License](https://img.shields.io/github/license/pluscubed/recycler-fast-scroll.svg)](https://www.apache.org/licenses/LICENSE-2.0.html)
 
 Widget for `RecyclerView` fast scrolling, like Android's built-in fast scroll option for `ListView`.  
 Supports any vertically scrolling `LayoutManager`, as well as proper integration for `AppBarLayout`. 
