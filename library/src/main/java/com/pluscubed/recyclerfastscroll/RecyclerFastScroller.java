@@ -10,20 +10,19 @@ import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.InsetDrawable;
 import android.graphics.drawable.StateListDrawable;
-import android.support.annotation.ColorInt;
-import android.support.annotation.Nullable;
-import android.support.design.widget.AppBarLayout;
-import android.support.design.widget.CoordinatorLayout;
-import android.support.v4.view.GravityCompat;
-import android.support.v4.view.ViewCompat;
-import android.support.v4.view.animation.FastOutLinearInInterpolator;
-import android.support.v4.view.animation.LinearOutSlowInInterpolator;
-import android.support.v7.widget.RecyclerView;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
+
+import androidx.annotation.ColorInt;
+import androidx.annotation.Nullable;
+import androidx.core.view.GravityCompat;
+import androidx.core.view.ViewCompat;
+import androidx.interpolator.view.animation.FastOutLinearInInterpolator;
+import androidx.interpolator.view.animation.LinearOutSlowInInterpolator;
+import androidx.recyclerview.widget.RecyclerView;
 
 public class RecyclerFastScroller extends FrameLayout {
 
@@ -39,8 +38,6 @@ public class RecyclerFastScroller extends FrameLayout {
     int mAppBarLayoutOffset;
 
     RecyclerView mRecyclerView;
-    CoordinatorLayout mCoordinatorLayout;
-    AppBarLayout mAppBarLayout;
 
     AnimatorSet mAnimator;
     boolean mAnimatingIn;
@@ -168,16 +165,7 @@ public class RecyclerFastScroller extends FrameLayout {
                             newHandlePressedYAdjustedToInitial - mLastPressedYAdjustedToInitial;
 
                     int dY = (int) ((deltaPressedYFromLastAdjustedToInitial / mInitialBarHeight) *
-                            (mRecyclerView.computeVerticalScrollRange() + (mAppBarLayout == null ? 0 : mAppBarLayout.getTotalScrollRange())));
-
-                    if (mCoordinatorLayout != null && mAppBarLayout != null) {
-                        CoordinatorLayout.LayoutParams params = (CoordinatorLayout.LayoutParams) mAppBarLayout.getLayoutParams();
-                        AppBarLayout.Behavior behavior = (AppBarLayout.Behavior) params.getBehavior();
-                        if (behavior != null) {
-                            behavior.onNestedPreScroll(mCoordinatorLayout, mAppBarLayout,
-                                    RecyclerFastScroller.this, 0, dY, new int[2]);
-                        }
-                    }
+                            mRecyclerView.computeVerticalScrollRange());
 
                     updateRvScroll(dY + mLastAppBarLayoutOffset - mAppBarLayoutOffset);
 
@@ -334,25 +322,6 @@ public class RecyclerFastScroller extends FrameLayout {
         mAdapter = adapter;
     }
 
-    public void attachAppBarLayout(CoordinatorLayout coordinatorLayout, AppBarLayout appBarLayout) {
-        mCoordinatorLayout = coordinatorLayout;
-        mAppBarLayout = appBarLayout;
-
-        mAppBarLayout.addOnOffsetChangedListener(new AppBarLayout.OnOffsetChangedListener() {
-            @Override
-            public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {
-                show(true);
-
-                MarginLayoutParams layoutParams = (MarginLayoutParams) getLayoutParams();
-                layoutParams.topMargin = mAppBarLayout.getHeight() + verticalOffset; //AppBarLayout actual height
-
-                mAppBarLayoutOffset = -verticalOffset;
-
-                setLayoutParams(layoutParams);
-            }
-        });
-    }
-
     public void setOnHandleTouchListener(OnTouchListener listener) {
         mOnTouchListener = listener;
     }
@@ -414,7 +383,7 @@ public class RecyclerFastScroller extends FrameLayout {
         if (mRecyclerView == null) return;
 
         int scrollOffset = mRecyclerView.computeVerticalScrollOffset() + mAppBarLayoutOffset;
-        int verticalScrollRange = mRecyclerView.computeVerticalScrollRange() + (mAppBarLayout == null ? 0 : mAppBarLayout.getTotalScrollRange())
+        int verticalScrollRange = mRecyclerView.computeVerticalScrollRange()
                 + mRecyclerView.getPaddingBottom();
 
         int barHeight = mBar.getHeight();

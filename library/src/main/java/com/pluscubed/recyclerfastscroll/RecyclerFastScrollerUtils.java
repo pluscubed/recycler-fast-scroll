@@ -5,9 +5,10 @@ import android.content.res.Configuration;
 import android.content.res.TypedArray;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
-import android.support.annotation.AttrRes;
-import android.support.annotation.ColorInt;
 import android.view.View;
+
+import androidx.annotation.AttrRes;
+import androidx.annotation.ColorInt;
 
 public class RecyclerFastScrollerUtils {
     public static void setViewBackground(View view, Drawable background) {

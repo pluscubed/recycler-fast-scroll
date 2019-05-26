@@ -1,13 +1,14 @@
 apply plugin: 'com.android.library'
 apply plugin: 'com.github.dcendents.android-maven'
 
+group='com.github.pluscubed'
+
 android {
-    compileSdkVersion 24
-    buildToolsVersion "24.0.0"
+    compileSdkVersion 28
 
     defaultConfig {
         minSdkVersion 14
-        targetSdkVersion 24
+        targetSdkVersion 28
         versionCode 5
         versionName "0.3.2"
     }
@@ -16,9 +17,9 @@ android {
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     testCompile 'junit:junit:4.12'
-    compile 'com.android.support:appcompat-v7:24.0.0'
-    compile 'com.android.support:recyclerview-v7:24.0.0'
-    compile 'com.android.support:design:24.0.0'
+    compile 'androidx.appcompat:appcompat:1.0.2'
+    compile 'androidx.recyclerview:recyclerview:1.0.0'
+    compile 'com.google.android.material:material:1.0.0'
 }
 
 // build a jar with source files

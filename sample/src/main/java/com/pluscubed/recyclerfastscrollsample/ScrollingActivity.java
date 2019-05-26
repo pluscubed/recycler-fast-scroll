@@ -1,14 +1,7 @@
 package com.pluscubed.recyclerfastscrollsample;
 
 import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.design.widget.Snackbar;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.Toolbar;
 import android.text.Html;
 import android.text.InputType;
 import android.view.LayoutInflater;
@@ -19,9 +12,16 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.afollestad.materialdialogs.color.ColorChooserDialog;
+import com.google.android.material.snackbar.Snackbar;
 import com.pluscubed.recyclerfastscroll.BuildConfig;
 import com.pluscubed.recyclerfastscroll.RecyclerFastScroller;
 import com.pluscubed.recyclerfastscroll.RecyclerFastScrollerUtils;
@@ -37,13 +37,6 @@ public class ScrollingActivity extends AppCompatActivity implements ColorChooser
             R.string.touch_target_width
     };
 
-    static final Class[] DEMO_ACTIVITIES = {
-            CoordinatorScrollingActivity.class
-    };
-    static final int[] DEMO_NAMES = {
-            R.string.coordinator_layout
-    };
-
     RecyclerFastScroller mRecyclerFastScroller;
 
     public static int convertPxToDp(Context context, float px) {
@@ -54,14 +47,14 @@ public class ScrollingActivity extends AppCompatActivity implements ColorChooser
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_simple_scrolling);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        RecyclerView view = (RecyclerView) findViewById(R.id.recyclerview);
+        RecyclerView view = findViewById(R.id.recyclerview);
         view.setAdapter(new ItemAdapter());
         view.setLayoutManager(new LinearLayoutManager(this));
 
-        mRecyclerFastScroller = (RecyclerFastScroller) findViewById(R.id.fast_scroller);
+        mRecyclerFastScroller = findViewById(R.id.fast_scroller);
         mRecyclerFastScroller.attachRecyclerView(view);
 
         setTitle(R.string.title);
@@ -220,8 +213,6 @@ public class ScrollingActivity extends AppCompatActivity implements ColorChooser
                 } else {
                     holder.button.setText(CUSTOMIZATION_NAMES[position]);
                 }
-            } else if (DEMO_ACTIVITIES.length + CUSTOMIZATION_NAMES.length > position) {
-                holder.button.setText(DEMO_NAMES[position - CUSTOMIZATION_NAMES.length]);
             } else {
                 holder.button.setText(String.format(getString(R.string.item_number), position + 1));
             }
@@ -274,9 +265,6 @@ public class ScrollingActivity extends AppCompatActivity implements ColorChooser
                                     customizeTouchTargetWidth();
                                     break;
                             }
-                        } else if (DEMO_ACTIVITIES.length + CUSTOMIZATION_NAMES.length > position) {
-                            Intent i = new Intent(ScrollingActivity.this, DEMO_ACTIVITIES[position - CUSTOMIZATION_NAMES.length]);
-                            startActivity(i);
                         } else {
                             Snackbar.make(v, String.format(getString(R.string.item_pressed_snackbar), button.getText()), Snackbar.LENGTH_SHORT)
                                     .show();
