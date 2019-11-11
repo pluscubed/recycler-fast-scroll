@@ -2,6 +2,7 @@ package com.pluscubed.recyclerfastscrollsample;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.os.Handler;
 import android.text.Html;
 import android.text.InputType;
 import android.view.LayoutInflater;
@@ -17,6 +18,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
@@ -58,6 +60,19 @@ public class ScrollingActivity extends AppCompatActivity implements ColorChooser
         mRecyclerFastScroller.attachRecyclerView(view);
 
         setTitle(R.string.title);
+        final SwipeRefreshLayout srl = findViewById(R.id.swipe_refresh_layout);
+
+        srl.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        srl.setRefreshing(false);
+                    }
+                }, 1000);
+            }
+        });
     }
 
     @Override
