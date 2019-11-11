@@ -11,6 +11,7 @@ import android.graphics.drawable.Drawable;
 import android.graphics.drawable.InsetDrawable;
 import android.graphics.drawable.StateListDrawable;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
@@ -49,6 +50,8 @@ public class RecyclerFastScroller extends FrameLayout {
     private int mBarColor;
     private int mTouchTargetWidth;
     private int mBarInset;
+
+    private boolean nestScroll = false;
 
     private boolean mHideOverride;
     private RecyclerView.Adapter mAdapter;
@@ -151,6 +154,7 @@ public class RecyclerFastScroller extends FrameLayout {
                     nestedScrollAxis |= ViewCompat.SCROLL_AXIS_VERTICAL;
 
                     mRecyclerView.startNestedScroll(nestedScrollAxis);
+                    nestScroll = true;
 
                     mInitialBarHeight = mBar.getHeight();
                     mLastPressedYAdjustedToInitial = event.getY() + mHandle.getY() + mBar.getY();
@@ -175,7 +179,7 @@ public class RecyclerFastScroller extends FrameLayout {
                     mLastPressedYAdjustedToInitial = -1;
 
                     mRecyclerView.stopNestedScroll();
-
+                    nestScroll = false;
                     mHandle.setPressed(false);
                     postAutoHide();
                 }
@@ -410,7 +414,21 @@ public class RecyclerFastScroller extends FrameLayout {
     void updateRvScroll(int dY) {
         if (mRecyclerView != null && mHandle != null) {
             try {
-                mRecyclerView.scrollBy(0, dY);
+                Log.d("SS", String.valueOf(mRecyclerView.computeVerticalScrollOffset()));
+                Log.d("dy", String.valueOf(dY));
+                int voffset = mRecyclerView.computeVerticalScrollOffset();
+                if (dY < 0 && -dY > voffset) {//高度变小 向上滑动
+                    mRecyclerView.scrollBy(0, -voffset);//直接到顶部
+                    mRecyclerView.stopNestedScroll();
+                    nestScroll = false;
+                } else if (voffset > 0 || dY > 0) {
+                    if (!nestScroll) {
+                        int nestedScrollAxis = ViewCompat.SCROLL_AXIS_NONE;
+                        nestedScrollAxis |= ViewCompat.SCROLL_AXIS_VERTICAL;
+                        mRecyclerView.startNestedScroll(nestedScrollAxis);
+                    }
+                    mRecyclerView.scrollBy(0, dY);
+                }
             } catch (Throwable t) {
                 t.printStackTrace();
             }
